@@ -1,0 +1,24 @@
+{
+  "name": "angboot",
+  "version": "0.0.0",
+  "authors": [
+    "olefrank <olefrankjensen@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "latest",
+    "jquery": "latest",
+    "bootstrap": "latest",
+    "angular-ui-router": "latest"
+  },
+  "devDependencies": {
+    
+  }
+}

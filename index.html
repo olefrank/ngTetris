@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="da" ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="">
+
+    <title>Starter Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body ng-controller="tetrisCtrl as Tetris">
+    <keydown-handler tetromino="Tetris.tetromino" grid="Tetris.grid" restart-loop="Tetris.restartLoop()" />
+    <div class="container">
+
+        <div class="row">
+            <div class="tetris-grid-container">
+
+                <!--current tetromino-->
+                <div class="tetromino" ng-style="Tetris.tetrominoScreenPosition()">
+                    <div ng-repeat="row in Tetris.tetromino.shape track by $index">
+                        <div class="tetromino-cell" ng-class="{'cell-fill': cell == 1}" ng-repeat="cell in row track by $index">&nbsp;</div>
+                    </div>
+                </div>
+
+                <!-- grid -->
+                <div class="tetris-grid">
+                    <div class="grid-row" ng-repeat="row in Tetris.grid track by $index">
+                        <div class="grid-cell" ng-class="{'cell-fill': cell == 1}" ng-repeat="cell in row track by $index">&nbsp;</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ================================================== -->
+    <script src="lib/jquery/dist/jquery.min.js"></script>
+    <script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="lib/angular/angular.min.js"></script>
+    <script src="lib/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/tetris.controller.js"></script>
+    <script src="js/action.service.js"></script>
+    <script src="js/collision.service.js"></script>
+    <script src="js/factory.service.js"></script>
+    <script src="js/keydownHandler.directive.js"></script>
+    <script src="js/shape.service.js"></script>
+</body>
+</html>
