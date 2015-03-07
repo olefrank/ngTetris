@@ -2,6 +2,9 @@
 
     "use strict";
 
+    var numCols = 10,
+        numRows = 16;
+
     function factoryService(shapeSvc) {
         var tetrisFactory = {
             createTetromino: createTetromino,
@@ -11,7 +14,7 @@
             var tetromino = {};
             tetromino.shape = shapeSvc.getShape();
             tetromino.topLeft = {
-                x: 0,
+                x: parseInt( (numCols - tetromino.shape[0].length) / 2),
                 y: 0 - tetromino.shape.length
             };
             tetromino.screenPosition = {
@@ -21,6 +24,11 @@
             return tetromino;
         }
         function createGrid(rows, cols) {
+            // assign values
+            numCols = cols;
+            numRows = rows;
+
+            // create new grid
             var grid = [];
             for (var i = 0; i < rows; i++) {
                 // create new array for every grid row
