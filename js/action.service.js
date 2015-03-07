@@ -12,12 +12,12 @@
         };
         function moveHorizontal(tetromino, moveX) {
             tetromino.topLeft.x += moveX;
-            tetromino.screenPosition.x = tetromino.topLeft.x * 20;
+            tetromino.screenPosition.x = tetromino.topLeft.x * 20 + 1;
             console.log("moved " + (moveX>0 ? "right" : "left"));
         }
         function moveDown(tetromino) {
             tetromino.topLeft.y++;
-            tetromino.screenPosition.y = tetromino.topLeft.y * 20;
+            tetromino.screenPosition.y = tetromino.topLeft.y * 20 + 1;
             console.log("moved down");
         }
         function rotate(tetromino) {

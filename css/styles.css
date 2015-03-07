@@ -1,5 +1,5 @@
 body {
-
+    background: #121212;
 }
 .cell-fill {
     background-color: blue;
@@ -7,11 +7,17 @@ body {
 .tetris-grid-container {
     position: relative;
 }
+.tetris-grid-container,
+.tetris-sidebar {
+    background: #FEFEFA;
+    height: 322px;
+}
 .tetromino {
     position: absolute;
 }
 .tetris-grid {
-    /*border: 1px solid black;*/
+    border: 1px solid black;
+    width: 202px;
 }
 
 .grid-cell,

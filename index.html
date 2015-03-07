@@ -27,18 +27,28 @@
     <div class="container">
 
         <div class="row">
-            <div class="tetris-grid-container">
+            <div class="col-md-8">
+                <div class="tetris-grid-container">
 
-                <!--current tetromino-->
-                <div class="tetromino" ng-style="Tetris.tetrominoScreenPosition()">
-                    <div ng-repeat="row in Tetris.tetromino.shape track by $index">
-                        <div class="tetromino-cell" ng-class="{'cell-fill': cell == 1}" ng-repeat="cell in row track by $index">&nbsp;</div>
+                    <!--current tetromino-->
+                    <div class="tetromino" ng-style="Tetris.tetrominoScreenPosition()">
+                        <div ng-repeat="row in Tetris.tetromino.shape track by $index">
+                            <div class="tetromino-cell" ng-class="{'cell-fill': cell == 1}" ng-repeat="cell in row track by $index">&nbsp;</div>
+                        </div>
+                    </div>
+
+                    <!-- grid -->
+                    <div class="tetris-grid">
+                        <div class="grid-row" ng-repeat="row in Tetris.grid track by $index">
+                            <div class="grid-cell" ng-class="{'cell-fill': cell == 1}" ng-repeat="cell in row track by $index">&nbsp;</div>
+                        </div>
                     </div>
                 </div>
-
-                <!-- grid -->
-                <div class="tetris-grid">
-                    <div class="grid-row" ng-repeat="row in Tetris.grid track by $index">
+            </div>
+            <div class="col-md-4">
+                <div class="tetris-sidebar">
+                    <p>Next up:</p>
+                    <div class="grid-row" ng-repeat="row in Tetris.getNextTetromino() track by $index">
                         <div class="grid-cell" ng-class="{'cell-fill': cell == 1}" ng-repeat="cell in row track by $index">&nbsp;</div>
                     </div>
                 </div>
@@ -59,5 +69,6 @@
     <script src="js/factory.service.js"></script>
     <script src="js/keydownHandler.directive.js"></script>
     <script src="js/shape.service.js"></script>
+    <script src="js/tetromino.service.js"></script>
 </body>
 </html>
