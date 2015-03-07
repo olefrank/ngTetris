@@ -2,13 +2,14 @@
 
     "use strict";
 
-    function actionService(scoreSvc) {
+    function actionService() {
         var actionService = {
             moveHorizontal: moveHorizontal,
             moveDown: moveDown,
             rotate: rotate,
             landTetromino: landTetromino,
-            clearLines: clearLines
+            clearLines: clearLines,
+            insertEmptyRows: insertEmptyRows
         };
         function moveHorizontal(tetromino, moveX) {
             tetromino.topLeft.x += moveX;
@@ -66,7 +67,7 @@
         }
         function clearLines(grid) {
             var clearLine,
-                numLinesRemoved = 0;
+                result = angular.copy(grid);
 
             // loop through grid, bottom up
             for (var y = grid.length-1; y >= 0; y--) {
@@ -78,19 +79,16 @@
                 }
                 if (clearLine) {
                     // remove line
-                    grid.splice(y, 1);
-                    numLinesRemoved++;
+                    result.splice(y, 1);
                 }
             }
-
-            // update score
-            scoreSvc.updateScore(numLinesRemoved);
-            console.log(numLinesRemoved + " lines removed");
-
+            return result;
+        }
+        function insertEmptyRows(num, grid) {
             // insert removed lines in top
-            while (numLinesRemoved > 0) {
+            while (num > 0) {
                 grid.unshift([0,0,0,0,0,0,0,0,0,0]);
-                numLinesRemoved--;
+                num--;
             }
             return grid;
         }

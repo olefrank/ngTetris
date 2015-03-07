@@ -47,10 +47,16 @@
                         gameOver();
                     }
                     else {
+                        // copy tetromino to 'landed' grid
                         vm.grid = actionSvc.landTetromino(vm.grid, vm.tetromino);
-                        vm.tetromino = undefined;
-                        vm.grid = actionSvc.clearLines(vm.grid);
 
+                        // remove lines if necessary
+                        var gridCleared = actionSvc.clearLines(vm.grid);
+                        var numLinesCleared = vm.grid.length - gridCleared.length;
+                        scoreSvc.updateScore(numLinesCleared);
+                        vm.grid = actionSvc.insertEmptyRows(numLinesCleared, gridCleared);
+
+                        // new tetromino
                         vm.tetromino = tetrominoSvc.updateQueue();
                     }
                 }
