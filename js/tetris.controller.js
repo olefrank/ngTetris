@@ -61,7 +61,7 @@
                     }
                 }
                 else {
-                    actionSvc.moveDown(vm.tetromino);
+                    actionSvc.moveDown(vm.grid, vm.tetromino);
                 }
 
             }, 500);

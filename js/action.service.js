@@ -2,7 +2,7 @@
 
     "use strict";
 
-    function actionService() {
+    function actionService(collisionSvc) {
         var actionService = {
             moveHorizontal: moveHorizontal,
             moveDown: moveDown,
@@ -11,19 +11,32 @@
             clearLines: clearLines,
             insertEmptyRows: insertEmptyRows
         };
-        function moveHorizontal(tetromino, moveX) {
-            tetromino.topLeft.x += moveX;
-            tetromino.screenPosition.x = tetromino.topLeft.x * 20 + 1;
-            console.log("moved " + (moveX>0 ? "right" : "left"));
+        function moveHorizontal(grid, tetromino, moveX) {
+            if (!collisionSvc.isCollisionHorizontal(grid, tetromino, moveX)) {
+                tetromino.topLeft.x += moveX;
+                tetromino.screenPosition.x = tetromino.topLeft.x * 20 + 1;
+                console.log("moved " + (moveX > 0 ? "right" : "left"));
+            }
+            return tetromino;
         }
-        function moveDown(tetromino) {
-            tetromino.topLeft.y++;
-            tetromino.screenPosition.y = tetromino.topLeft.y * 20 + 1;
-            console.log("moved down");
+        function moveDown(grid, tetromino) {
+            if (!collisionSvc.isCollisionVertical(grid, tetromino)) {
+                tetromino.topLeft.y++;
+                tetromino.screenPosition.y = tetromino.topLeft.y * 20 + 1;
+                console.log("moved down");
+            }
+            return tetromino;
         }
-        function rotate(tetromino) {
-            tetromino.shape = rotateMatrixCW(tetromino.shape);
-            console.log("rotated");
+        function rotate(grid, tetromino) {
+            var rotatedTetromino = angular.copy(tetromino);
+            rotatedTetromino.shape = rotateMatrixCW(rotatedTetromino.shape);
+            if ( !collisionSvc.isCollisionHorizontal(grid, rotatedTetromino, 0) && !collisionSvc.isCollisionVertical(grid, rotatedTetromino) ) {
+                return rotatedTetromino;
+                console.log("rotated");
+            }
+            else {
+                return tetromino;
+            }
         }
         function rotateMatrixCW(matrix) {
             var temp = transposeMatrix(matrix);

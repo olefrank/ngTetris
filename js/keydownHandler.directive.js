@@ -16,31 +16,23 @@
                         switch(e.which) {
                             // left
                             case 37:
-                                if (!collisionSvc.isCollisionHorizontal($scope.grid, $scope.tetromino, -1)) {
-                                    actionSvc.moveHorizontal($scope.tetromino, -1);
-                                    $scope.$apply();
-                                }
+                                $scope.tetromino = actionSvc.moveHorizontal($scope.grid, $scope.tetromino, -1);
+                                $scope.$apply();
                                 break;
                             // up
                             case 38:
-                                if (!collisionSvc.isCollisionVertical($scope.grid, $scope.tetromino) && !collisionSvc.isCollisionHorizontal($scope.grid, $scope.tetromino, 0)) {
-                                    actionSvc.rotate($scope.tetromino);
-                                    $scope.$apply();
-                                }
+                                $scope.tetromino = actionSvc.rotate($scope.grid, $scope.tetromino);
+                                $scope.$apply();
                                 break;
                             // right
                             case 39:
-                                if (!collisionSvc.isCollisionHorizontal($scope.grid, $scope.tetromino, 1)) {
-                                    actionSvc.moveHorizontal($scope.tetromino, 1);
-                                    $scope.$apply();
-                                }
+                                $scope.tetromino = actionSvc.moveHorizontal($scope.grid, $scope.tetromino, 1);
+                                $scope.$apply();
                                 break;
                             // down
                             case 40:
-                                if (!collisionSvc.isCollisionVertical($scope.grid, $scope.tetromino)) {
-                                    actionSvc.moveDown($scope.tetromino);
-                                    $scope.restartLoop(1000);
-                                }
+                                $scope.tetromino = actionSvc.moveDown($scope.grid, $scope.tetromino);
+                                $scope.restartLoop(1000);
                                 break;
                         }
                     }
