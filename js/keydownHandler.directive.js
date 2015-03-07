@@ -2,7 +2,7 @@
 
     "use strict";
 
-    function keydownHandler($document, actionSvc, collisionSvc) {
+    function keydownHandler($document, actionSvc) {
         var keydownHandler = {
             restrict: 'AE',
             scope: {
@@ -32,7 +32,7 @@
                             // down
                             case 40:
                                 $scope.tetromino = actionSvc.moveDown($scope.grid, $scope.tetromino);
-                                $scope.restartLoop(1000);
+                                $scope.restartLoop();
                                 break;
                         }
                     }
