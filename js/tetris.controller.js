@@ -3,11 +3,19 @@
     "use strict";
 
     function tetrisController($interval, actionSvc, collisionSvc, factorySvc, tetrominoSvc) {
+        // variables
         var vm = this,
-            loop;
+            loop,
+            btnStates = [
+                "Start",
+                "Stop"
+            ],
+            currentState;
 
-        vm.grid = factorySvc.createGrid(16, 10);
-        vm.tetromino = undefined;
+        // view models
+        vm.grid;
+        vm.tetromino;
+        vm.btnLabel;
 
         vm.getNextTetromino = function() {
             var next = tetrominoSvc.getTetrominoQueue()[0];
@@ -23,12 +31,6 @@
                 };
             }
             return result;
-        };
-
-        var gameOver = function() {
-            $interval.cancel(loop);
-            loop = null;
-            console.log("game over");
         };
 
         vm.restartLoop = function(interval) {
@@ -55,11 +57,53 @@
             }, 500);
         };
 
-        // init
-        vm.tetromino = undefined;
-        tetrominoSvc.initQueue();
-        vm.tetromino = tetrominoSvc.updateQueue();
-        vm.restartLoop(500);
+        vm.btnClickHandler = function() {
+            // switch states
+            switch (currentState) {
+                case 0 :
+                    vm.initGame();
+                    startGame();
+                    break;
+                case 1 :
+                    stopGame();
+                    break;
+            }
+            nextBtnState();
+        };
+
+        function gameOver() {
+            $interval.cancel(loop);
+            loop = null;
+            console.log("game over");
+        }
+
+        function nextBtnState() {
+            // switch to next state
+            currentState = (currentState + 1) % btnStates.length;
+            // update button label
+            vm.btnLabel = btnStates[currentState];
+        }
+
+        vm.initGame = function() {
+            // update button label
+            currentState = 0;
+            vm.btnLabel = btnStates[currentState];
+
+            // tetromino
+            tetrominoSvc.initQueue();
+            vm.tetromino = tetrominoSvc.updateQueue();
+
+            // grid
+            vm.grid = factorySvc.createGrid(16, 10);
+        };
+
+        function startGame() {
+            vm.restartLoop(500);
+        }
+
+        function stopGame() {
+            gameOver();
+        }
 
     }
     angular

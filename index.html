@@ -22,7 +22,7 @@
     <![endif]-->
 </head>
 
-<body ng-controller="tetrisCtrl as Tetris">
+<body ng-controller="tetrisCtrl as Tetris" ng-init="Tetris.initGame()">
     <keydown-handler tetromino="Tetris.tetromino" grid="Tetris.grid" restart-loop="Tetris.restartLoop()" />
     <div class="container">
 
@@ -53,6 +53,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row">
+            <button ng-click="Tetris.btnClickHandler()">{{ Tetris.btnLabel }}</button>
         </div>
     </div>
 
