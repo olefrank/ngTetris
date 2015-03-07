@@ -2,7 +2,7 @@
 
     "use strict";
 
-    function actionService() {
+    function actionService(scoreSvc) {
         var actionService = {
             moveHorizontal: moveHorizontal,
             moveDown: moveDown,
@@ -82,6 +82,11 @@
                     numLinesRemoved++;
                 }
             }
+
+            // update score
+            scoreSvc.updateScore(numLinesRemoved);
+            console.log(numLinesRemoved + " lines removed");
+
             // insert removed lines in top
             while (numLinesRemoved > 0) {
                 grid.unshift([0,0,0,0,0,0,0,0,0,0]);

@@ -2,7 +2,7 @@
 
     "use strict";
 
-    function tetrisController($interval, actionSvc, collisionSvc, factorySvc, tetrominoSvc) {
+    function tetrisController($interval, actionSvc, collisionSvc, factorySvc, tetrominoSvc, scoreSvc) {
         // variables
         var vm = this,
             loop,
@@ -16,6 +16,10 @@
         vm.grid;
         vm.tetromino;
         vm.btnLabel;
+
+        vm.getScore = function() {
+            return scoreSvc.getScore();
+        };
 
         vm.getNextTetromino = function() {
             var next = tetrominoSvc.getTetrominoQueue()[0];
@@ -95,6 +99,11 @@
 
             // grid
             vm.grid = factorySvc.createGrid(16, 10);
+
+            // misc
+            scoreSvc.setScore(0);
+
+            console.log("game initialized");
         };
 
         function startGame() {
@@ -108,6 +117,6 @@
     }
     angular
         .module("app")
-        .controller("tetrisCtrl", ["$interval", "actionSvc", "collisionSvc", "factorySvc", "tetrominoSvc", tetrisController]);
+        .controller("tetrisCtrl", ["$interval", "actionSvc", "collisionSvc", "factorySvc", "tetrominoSvc", "scoreSvc", tetrisController]);
 
 })();
