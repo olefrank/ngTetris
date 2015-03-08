@@ -12,27 +12,37 @@
         };
         function createTetromino() {
             var tetromino = {};
-            tetromino.shape = shapeSvc.getShape();
-            tetromino.topLeft = {
-                x: parseInt( (numCols - tetromino.shape[0].length) / 2),
-                y: 0 - tetromino.shape.length
-            };
-            tetromino.screenPosition = {
-                x: tetromino.topLeft.x * 20,
-                y: tetromino.topLeft.y * 20
-            };
+
+            var shape = shapeSvc.getShape();
+            angular.extend(tetromino, shape);
+
+            var topLeft = { topLeft: {} };
+            topLeft.topLeft.x = parseInt( (numCols - shape.shape[0].length) / 2 );
+            topLeft.topLeft.y = 0 - shape.shape.length;
+            angular.extend(tetromino, topLeft);
+
+            var screenPosition = { screenPosition: {} };
+            screenPosition.screenPosition.x = topLeft.topLeft.x * 20;
+            screenPosition.screenPosition.y = topLeft.topLeft.y * 20;
+            angular.extend(tetromino, screenPosition);
+
             return tetromino;
         }
         function createGrid(rows, cols) {
             // assign values
+
             numCols = cols;
             numRows = rows;
 
             // create new grid
             var grid = [];
             for (var i = 0; i < rows; i++) {
-                // create new array for every grid row
-                grid[i] = Array.apply(null, new Array(cols)).map(Number.prototype.valueOf,0);
+                var row = [];
+                for (var j = 0; j < cols; j++) {
+                    var props = { "value": 0, "color": ""};
+                    row[j] = props;
+                }
+                grid[i] = row;
             }
             return grid;
         }

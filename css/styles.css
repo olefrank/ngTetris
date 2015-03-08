@@ -1,15 +1,16 @@
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+
 body {
     background: #121212;
-}
-.cell-fill {
-    background-color: blue;
 }
 .tetris-grid-container {
     position: relative;
 }
 .tetris-grid-container,
 .tetris-sidebar {
-    background: #FEFEFA;
+    background: #CCC;
     height: 322px;
 }
 .tetromino {
@@ -19,7 +20,6 @@ body {
     border: 1px solid black;
     width: 202px;
 }
-
 .grid-cell,
 .tetromino-cell {
     text-align: center;

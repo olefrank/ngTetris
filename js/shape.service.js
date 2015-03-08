@@ -10,42 +10,63 @@
             return getRandomShape(shapes);
         }
         function getRandomShape(obj) {
-            var keys = Object.keys(obj)
+            var keys = Object.keys(obj);
             return obj[ keys[ keys.length * Math.random() << 0 ] ];
         }
         var shapes = {
-            "O": [
-                [1, 1],
-                [1, 1]
-            ],
-            "L": [
-                [1, 0],
-                [1, 0],
-                [1, 1]
-            ],
-            "J": [
-                [0, 1],
-                [0, 1],
-                [1, 1]
-            ],
-            "I": [
-                [1],
-                [1],
-                [1],
-                [1]
-            ],
-            "S": [
-                [0, 1, 1],
-                [1, 1, 0]
-            ],
-            "Z": [
-                [1, 1, 0],
-                [0, 1, 1]
-            ],
-            "T": [
-                [1, 1, 1],
-                [0, 1, 0]
-            ]
+            "O": {
+                shape: [
+                    [1, 1],
+                    [1, 1]
+                ],
+                color: "yellow"
+            },
+            "L": {
+                shape: [
+                    [1, 0],
+                    [1, 0],
+                    [1, 1]
+                ],
+                color: "pink"
+            },
+            "J": {
+                shape: [
+                    [0, 1],
+                    [0, 1],
+                    [1, 1]
+                ],
+                color: "blue"
+            },
+            "I": {
+                shape: [
+                    [1],
+                    [1],
+                    [1],
+                    [1]
+                ],
+                color: "lightblue"
+            },
+            "S": {
+                shape: [
+                    [0, 1, 1],
+                    [1, 1, 0]
+                ],
+                color: "green"
+            },
+            "Z": {
+                shape: [
+                    [1, 1, 0],
+                    [0, 1, 1]
+                ],
+                color: "red"
+            },
+            "T": {
+                shape: [
+                    [1, 1, 1],
+                    [0, 1, 0]
+                ],
+                color: "purple"
+            }
         };
 
         return shapeService;

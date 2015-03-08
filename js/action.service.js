@@ -71,7 +71,8 @@
                     if (tetromino.shape[y][x] === 1) {
                         gridY = tetromino.topLeft.y + y;
                         gridX = tetromino.topLeft.x + x;
-                        grid[gridY][gridX] = 1;
+                        grid[gridY][gridX].value = 1;
+                        grid[gridY][gridX].color = tetromino.color;
                     }
                 }
             }
@@ -86,7 +87,7 @@
             for (var y = grid.length-1; y >= 0; y--) {
                 clearLine = true;
                 for (var x = 0; x < grid[y].length; x++) {
-                    if (grid[y][x] === 0) {
+                    if (grid[y][x].value === 0) {
                         clearLine = false;
                     }
                 }

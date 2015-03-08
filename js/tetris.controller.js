@@ -22,8 +22,7 @@
         };
 
         vm.getNextTetromino = function() {
-            var next = tetrominoSvc.getTetrominoQueue()[0];
-            return next.shape;
+            return tetrominoSvc.getTetrominoQueue()[0];
         };
 
         vm.tetrominoScreenPosition = function() {

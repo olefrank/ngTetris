@@ -26,7 +26,7 @@
                 for (var y = 0; y < tetromino.shape.length; y++) {
                     potentialY += y;
 
-                    if (grid[potentialY][potentialXLeft] === 1 && tetromino.shape[y][0] === 1) {
+                    if (grid[potentialY][potentialXLeft].value === 1 && tetromino.shape[y][0] === 1) {
                         return true;
                     }
                 }
@@ -44,7 +44,8 @@
                 for (var y = 0; y < tetromino.shape.length; y++) {
                     potentialY += y;
 
-                    if (grid[potentialY][potentialXRight] === 1 && tetromino.shape[y][tetromino.shape[0].length-1] ===  1) {
+                    if (grid[potentialY][potentialXRight].value === 1 &&
+                        tetromino.shape[y][tetromino.shape[0].length-1] ===  1) {
                         return true;
                     }
                 }
@@ -76,7 +77,7 @@
 
                             if (gridY >= 0) {
 
-                                if (grid[gridY][gridX] === 1) {
+                                if (grid[gridY][gridX].value === 1) {
                                     console.log("collision: DOWN");
                                     return true;
                                 }
@@ -89,11 +90,9 @@
             return false;
         }
         function isGameOver(tetromino) {
-            if (tetromino.topLeft.y < 0) {
-                return true;
-            }
-            return false;
+            return tetromino.topLeft.y < 0;
         }
+
         return collisionService;
     }
     angular

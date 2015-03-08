@@ -22,7 +22,7 @@
     <![endif]-->
 </head>
 
-<body ng-controller="tetrisCtrl as Tetris" ng-init="Tetris.initGame()">
+<body ng-controller="tetrisCtrl as Tetris" ng-init="Tetris.initGame()" ng-cloak>
     <keydown-handler tetromino="Tetris.tetromino" grid="Tetris.grid" restart-loop="Tetris.restartLoop()" />
     <div class="container">
 
@@ -33,14 +33,15 @@
                     <!--current tetromino-->
                     <div class="tetromino" ng-style="Tetris.tetrominoScreenPosition()">
                         <div ng-repeat="row in Tetris.tetromino.shape track by $index">
-                            <div class="tetromino-cell" ng-class="{'cell-fill': cell == 1}" ng-repeat="cell in row track by $index">&nbsp;</div>
+                            <div class="tetromino-cell" ng-style="cell == 1 && {'background-color': Tetris.tetromino.color}" ng-repeat="cell in row track by $index">&nbsp;</div>
                         </div>
                     </div>
 
                     <!-- grid -->
                     <div class="tetris-grid">
                         <div class="grid-row" ng-repeat="row in Tetris.grid track by $index">
-                            <div class="grid-cell" ng-class="{'cell-fill': cell == 1}" ng-repeat="cell in row track by $index">&nbsp;</div>
+                            <div class="grid-cell" ng-style="cell.value == 1 && {'background-color': cell.color}" ng-repeat="cell in row track by $index">&nbsp;</div>
+                            <!-- cell: { value: 1, color: blue } -->
                         </div>
                     </div>
                 </div>
@@ -49,8 +50,8 @@
                 <div class="tetris-sidebar">
                     <h4>Score: {{ Tetris.getScore() }}</h4>
                     <p>Next up:</p>
-                    <div class="grid-row" ng-repeat="row in Tetris.getNextTetromino() track by $index">
-                        <div class="grid-cell" ng-class="{'cell-fill': cell == 1}" ng-repeat="cell in row track by $index">&nbsp;</div>
+                    <div class="grid-row" ng-repeat="row in Tetris.getNextTetromino().shape track by $index">
+                        <div class="grid-cell" ng-style="cell == 1 && {'background-color': Tetris.getNextTetromino().color}" ng-repeat="cell in row track by $index">&nbsp;</div>
                     </div>
                 </div>
             </div>
