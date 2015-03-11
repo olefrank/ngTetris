@@ -4,18 +4,38 @@
 
     function actionService(collisionSvc) {
         var actionService = {
-            moveHorizontal: moveHorizontal,
+//            moveHorizontal: moveHorizontal,
+            moveRight: moveRight,
+            moveLeft: moveLeft,
             moveDown: moveDown,
             rotate: rotate,
             landTetromino: landTetromino,
             clearLines: clearLines,
             insertEmptyRows: insertEmptyRows
         };
-        function moveHorizontal(grid, tetromino, moveX) {
-            if (!collisionSvc.isCollisionHorizontal(grid, tetromino, moveX)) {
+//        function moveHorizontal(grid, tetromino, moveX) {
+//            if (!collisionSvc.isCollisionHorizontal(grid, tetromino, moveX)) {
+//                tetromino.topLeft.x += moveX;
+//                tetromino.screenPosition.x = tetromino.topLeft.x * 20 + 1;
+//                console.log("moved " + (moveX > 0 ? "right" : "left"));
+//            }
+//            return tetromino;
+//        }
+        function moveRight(grid, tetromino) {
+            var moveX = 1;
+            if (!collisionSvc.isCollisionRight(grid, tetromino, moveX)) {
                 tetromino.topLeft.x += moveX;
                 tetromino.screenPosition.x = tetromino.topLeft.x * 20 + 1;
-                console.log("moved " + (moveX > 0 ? "right" : "left"));
+                console.log("moved right");
+            }
+            return tetromino;
+        }
+        function moveLeft(grid, tetromino, moveX) {
+            var moveX = -1;
+            if (!collisionSvc.isCollisionLeft(grid, tetromino, moveX)) {
+                tetromino.topLeft.x += moveX;
+                tetromino.screenPosition.x = tetromino.topLeft.x * 20 + 1;
+                console.log("moved left");
             }
             return tetromino;
         }
@@ -30,7 +50,7 @@
         function rotate(grid, tetromino) {
             var rotatedTetromino = angular.copy(tetromino);
             rotatedTetromino.shape = rotateMatrixCW(rotatedTetromino.shape);
-            if ( !collisionSvc.isCollisionHorizontal(grid, rotatedTetromino, 0) && !collisionSvc.isCollisionVertical(grid, rotatedTetromino) ) {
+            if ( !collisionSvc.isCollisionRight(grid, rotatedTetromino, 0) && !collisionSvc.isCollisionVertical(grid, rotatedTetromino) ) {
                 return rotatedTetromino;
                 console.log("rotated");
             }

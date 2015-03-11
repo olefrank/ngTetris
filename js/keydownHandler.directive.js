@@ -16,7 +16,7 @@
                         switch(e.which) {
                             // left
                             case 37:
-                                $scope.tetromino = actionSvc.moveHorizontal($scope.grid, $scope.tetromino, -1);
+                                $scope.tetromino = actionSvc.moveLeft($scope.grid, $scope.tetromino);
                                 $scope.$apply();
                                 break;
                             // up
@@ -26,7 +26,7 @@
                                 break;
                             // right
                             case 39:
-                                $scope.tetromino = actionSvc.moveHorizontal($scope.grid, $scope.tetromino, 1);
+                                $scope.tetromino = actionSvc.moveRight($scope.grid, $scope.tetromino);
                                 $scope.$apply();
                                 break;
                             // down
