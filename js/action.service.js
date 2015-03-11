@@ -40,6 +40,7 @@
             return tetromino;
         }
         function moveDown(grid, tetromino) {
+
             if (!collisionSvc.isCollisionVertical(grid, tetromino)) {
                 tetromino.topLeft.y++;
                 tetromino.screenPosition.y = tetromino.topLeft.y * 20 + 1;
@@ -58,6 +59,7 @@
                 return tetromino;
             }
         }
+
         function rotateMatrixCW(matrix) {
             var temp = transposeMatrix(matrix);
             return reverseColsInMatrix(temp);

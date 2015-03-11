@@ -2,7 +2,7 @@
 
     "use strict";
 
-    function tetrisController($interval, actionSvc, collisionSvc, factorySvc, tetrominoSvc, scoreSvc) {
+    function tetrisController($interval, actionSvc, collisionSvc, factorySvc, tetrominoSvc, scoreSvc, tetrisService) {
         // variables
         var vm = this,
             loop,
@@ -13,8 +13,12 @@
             currentState;
 
         // view models
-        vm.grid;
-        vm.tetromino;
+        vm.grid = function() {
+            return tetrisService.getGrid();
+        };
+        vm.tetromino = function() {
+            return tetrisService.getTetromino();
+        }
         vm.btnLabel;
 
         vm.getScore = function() {
@@ -27,10 +31,11 @@
 
         vm.tetrominoScreenPosition = function() {
             var result = {};
-            if (typeof vm.tetromino !== "undefined") {
+            if (typeof vm.tetromino() !== "undefined") {
+                var tetromino = tetrisService.getTetromino();
                 result = {
-                    top: vm.tetromino.screenPosition.y + 'px',
-                    left: vm.tetromino.screenPosition.x + 'px'
+                    top: tetromino.screenPosition.y + 'px',
+                    left: tetromino.screenPosition.x + 'px'
                 };
             }
             return result;
@@ -40,26 +45,32 @@
             $interval.cancel(loop);
 
             loop = $interval(function () {
-                if (collisionSvc.isCollisionVertical(vm.grid, vm.tetromino)) {
-                    if (collisionSvc.isGameOver(vm.tetromino)) {
+
+                if (collisionSvc.isCollisionVertical(tetrisService.getGrid(), tetrisService.getTetromino())) {
+                    if (collisionSvc.isGameOver(tetrisService.getTetromino())) {
                         gameOver();
                     }
                     else {
                         // copy tetromino to 'landed' grid
-                        vm.grid = actionSvc.landTetromino(vm.grid, vm.tetromino);
+                        var tetromino = actionSvc.landTetromino(tetrisService.getGrid(), tetrisService.getTetromino());
+                        tetrisService.setTetromino(tetromino);
 
                         // remove lines if necessary
-                        var gridCleared = actionSvc.clearLines(vm.grid);
-                        var numLinesCleared = vm.grid.length - gridCleared.length;
+                        var grid = tetrisService.getGrid();
+                        var gridCleared = actionSvc.clearLines(grid);
+                        var numLinesCleared = grid.length - gridCleared.length;
                         scoreSvc.updateScore(numLinesCleared);
-                        vm.grid = actionSvc.insertEmptyRows(numLinesCleared, gridCleared);
+                        grid = actionSvc.insertEmptyRows(numLinesCleared, gridCleared);
+                        tetrisService.setGrid(grid);
 
                         // new tetromino
-                        vm.tetromino = tetrominoSvc.updateQueue();
+                        tetromino = tetrominoSvc.updateQueue();
+                        tetrisService.setTetromino(tetromino);
                     }
                 }
                 else {
-                    actionSvc.moveDown(vm.grid, vm.tetromino);
+                    var tetromino = actionSvc.moveDown(tetrisService.getGrid(), tetrisService.getTetromino());
+                    tetrisService.setTetromino(tetromino);
                 }
             }, getLoopSpeed());
         };
@@ -85,10 +96,12 @@
 
             // tetromino
             tetrominoSvc.initQueue();
-            vm.tetromino = tetrominoSvc.updateQueue();
+            var tetromino = tetrominoSvc.updateQueue();
+            tetrisService.setTetromino(tetromino);
 
             // grid
-            vm.grid = factorySvc.createGrid(16, 10);
+            var grid = factorySvc.createGrid(16, 10);
+            tetrisService.setGrid(grid);
 
             // misc
             scoreSvc.setScore(0);
@@ -157,6 +170,6 @@
     }
     angular
         .module("app")
-        .controller("tetrisCtrl", ["$interval", "actionSvc", "collisionSvc", "factorySvc", "tetrominoSvc", "scoreSvc", tetrisController]);
+        .controller("tetrisCtrl", ["$interval", "actionSvc", "collisionSvc", "factorySvc", "tetrominoSvc", "scoreSvc", "tetrisService", tetrisController]);
 
 })();

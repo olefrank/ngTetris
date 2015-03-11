@@ -23,7 +23,7 @@
 </head>
 
 <body ng-controller="tetrisCtrl as Tetris" ng-init="Tetris.initGame()" ng-cloak>
-    <keydown-handler tetromino="Tetris.tetromino" grid="Tetris.grid" restart-loop="Tetris.restartLoop()" />
+    <keydown-handler tetromino="Tetris.tetromino()" grid="Tetris.grid()" restart-loop="Tetris.restartLoop()" />
     <div class="container">
 
         <div class="row">
@@ -32,14 +32,14 @@
 
                     <!--current tetromino-->
                     <div class="tetromino" ng-style="Tetris.tetrominoScreenPosition()">
-                        <div ng-repeat="row in Tetris.tetromino.shape track by $index">
-                            <div class="tetromino-cell" ng-style="cell == 1 && {'background-color': Tetris.tetromino.color}" ng-repeat="cell in row track by $index">&nbsp;</div>
+                        <div ng-repeat="row in Tetris.tetromino().shape track by $index">
+                            <div class="tetromino-cell" ng-style="cell == 1 && {'background-color': Tetris.tetromino().color}" ng-repeat="cell in row track by $index">&nbsp;</div>
                         </div>
                     </div>
 
                     <!-- grid -->
                     <div class="tetris-grid">
-                        <div class="grid-row" ng-repeat="row in Tetris.grid track by $index">
+                        <div class="grid-row" ng-repeat="row in Tetris.grid() track by $index">
                             <div class="grid-cell" ng-style="cell.value == 1 && {'background-color': cell.color}" ng-repeat="cell in row track by $index">&nbsp;</div>
                             <!-- cell: { value: 1, color: blue } -->
                         </div>
@@ -76,6 +76,7 @@
     <script src="js/shape.service.js"></script>
     <script src="js/tetromino.service.js"></script>
     <script src="js/score.service.js"></script>
+    <script src="js/tetris.service.js"></script>
 
 </body>
 </html>

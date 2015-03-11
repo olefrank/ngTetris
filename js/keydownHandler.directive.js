@@ -2,7 +2,7 @@
 
     "use strict";
 
-    function keydownHandler($document, actionSvc) {
+    function keydownHandler($document, actionSvc, tetrisService) {
         var keydownHandler = {
             restrict: 'AE',
             scope: {
@@ -13,25 +13,30 @@
             link: function($scope, $elem, $attrs) {
                 $document.bind('keydown', function(e) {
                     if (typeof $scope.tetromino !== "undefined" && typeof $scope.grid !== "undefined") {
+                        var tetromino;
                         switch(e.which) {
                             // left
                             case 37:
-                                $scope.tetromino = actionSvc.moveLeft($scope.grid, $scope.tetromino);
+                                tetromino = actionSvc.moveLeft($scope.grid, $scope.tetromino);
+                                tetrisService.setTetromino(tetromino);
                                 $scope.$apply();
                                 break;
                             // up
                             case 38:
-                                $scope.tetromino = actionSvc.rotate($scope.grid, $scope.tetromino);
+                                tetromino = actionSvc.rotate($scope.grid, $scope.tetromino);
+                                tetrisService.setTetromino(tetromino);
                                 $scope.$apply();
                                 break;
                             // right
                             case 39:
-                                $scope.tetromino = actionSvc.moveRight($scope.grid, $scope.tetromino);
+                                tetromino = actionSvc.moveRight($scope.grid, $scope.tetromino);
+                                tetrisService.setTetromino(tetromino);
                                 $scope.$apply();
                                 break;
                             // down
                             case 40:
-                                $scope.tetromino = actionSvc.moveDown($scope.grid, $scope.tetromino);
+                                tetromino = actionSvc.moveDown($scope.grid, $scope.tetromino);
+                                tetrisService.setTetromino(tetromino);
                                 $scope.restartLoop();
                                 break;
                         }
@@ -43,5 +48,5 @@
     }
     angular
         .module("app")
-        .directive("keydownHandler", ["$document", "actionSvc", "collisionSvc", keydownHandler]);
+        .directive("keydownHandler", ["$document", "actionSvc", "tetrisService", keydownHandler]);
 })();
