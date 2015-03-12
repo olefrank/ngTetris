@@ -5,7 +5,8 @@
     function tetrisService() {
 
         var tetromino,
-            grid;
+            grid,
+            loop;
 
         function getTetromino() {
             return tetromino;
@@ -19,12 +20,22 @@
         function setGrid(val) {
             grid = val;
         }
+        function getLoop() {
+            return loop;
+        }
+        function setLoop(val) {
+            loop = val;
+        }
 
         return {
             getTetromino: getTetromino,
             setTetromino: setTetromino,
+
             getGrid: getGrid,
-            setGrid: setGrid
+            setGrid: setGrid,
+
+            getLoop: getLoop,
+            setLoop: setLoop
         };
     }
     angular

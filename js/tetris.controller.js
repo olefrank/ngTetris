@@ -5,7 +5,6 @@
     function tetrisController($interval, actionSvc, collisionSvc, factorySvc, tetrominoSvc, scoreSvc, tetrisService) {
         // variables
         var vm = this,
-            loop,
             btnStates = [
                 "Start",
                 "Stop"
@@ -30,9 +29,10 @@
         };
 
         vm.tetrominoScreenPosition = function() {
-            var result = {};
-            if (typeof vm.tetromino() !== "undefined") {
-                var tetromino = tetrisService.getTetromino();
+            var result = {},
+                tetromino = tetrisService.getTetromino();
+
+            if (tetromino) {
                 result = {
                     top: tetromino.screenPosition.y + 'px',
                     left: tetromino.screenPosition.x + 'px'
@@ -42,37 +42,24 @@
         };
 
         vm.restartLoop = function() {
+
+            var grid,
+                tetromino,
+                loop = tetrisService.getLoop();
+
+            // stop loop
             $interval.cancel(loop);
 
-            loop = $interval(function () {
+            // start new loop
+            var newLoop = $interval(function () {
 
-                if (collisionSvc.isCollisionVertical(tetrisService.getGrid(), tetrisService.getTetromino())) {
-                    if (collisionSvc.isGameOver(tetrisService.getTetromino())) {
-                        gameOver();
-                    }
-                    else {
-                        // copy tetromino to 'landed' grid
-                        var tetromino = actionSvc.landTetromino(tetrisService.getGrid(), tetrisService.getTetromino());
-                        tetrisService.setTetromino(tetromino);
+                grid = tetrisService.getGrid();
+                tetromino = tetrisService.getTetromino();
+                actionSvc.moveDown(grid, tetromino);
 
-                        // remove lines if necessary
-                        var grid = tetrisService.getGrid();
-                        var gridCleared = actionSvc.clearLines(grid);
-                        var numLinesCleared = grid.length - gridCleared.length;
-                        scoreSvc.updateScore(numLinesCleared);
-                        grid = actionSvc.insertEmptyRows(numLinesCleared, gridCleared);
-                        tetrisService.setGrid(grid);
-
-                        // new tetromino
-                        tetromino = tetrominoSvc.updateQueue();
-                        tetrisService.setTetromino(tetromino);
-                    }
-                }
-                else {
-                    var tetromino = actionSvc.moveDown(tetrisService.getGrid(), tetrisService.getTetromino());
-                    tetrisService.setTetromino(tetromino);
-                }
             }, getLoopSpeed());
+
+            tetrisService.setLoop(newLoop);
         };
 
         vm.btnClickHandler = function() {
@@ -146,12 +133,6 @@
             return result;
         }
 
-        function gameOver() {
-            $interval.cancel(loop);
-            loop = null;
-            console.log("game over");
-        }
-
         function nextBtnState() {
             // switch to next state
             currentState = (currentState + 1) % btnStates.length;
@@ -164,7 +145,7 @@
         }
 
         function stopGame() {
-            gameOver();
+            actionSvc.gameOver();
         }
 
     }

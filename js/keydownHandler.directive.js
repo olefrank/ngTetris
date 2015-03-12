@@ -10,36 +10,38 @@
                 "grid": "=",
                 "restartLoop": "&"
             },
-            link: function($scope, $elem, $attrs) {
+            link: function($scope) {
                 $document.bind('keydown', function(e) {
                     if (typeof $scope.tetromino !== "undefined" && typeof $scope.grid !== "undefined") {
-                        var tetromino;
+
+                        var grid = tetrisService.getGrid(),
+                            tetromino = tetrisService.getTetromino();
+
                         switch(e.which) {
+
                             // left
                             case 37:
-                                tetromino = actionSvc.moveLeft($scope.grid, $scope.tetromino);
-                                tetrisService.setTetromino(tetromino);
-                                $scope.$apply();
+                                actionSvc.moveLeft(grid, tetromino);
                                 break;
+
                             // up
                             case 38:
-                                tetromino = actionSvc.rotate($scope.grid, $scope.tetromino);
-                                tetrisService.setTetromino(tetromino);
-                                $scope.$apply();
+                                actionSvc.rotate(grid, tetromino);
                                 break;
+
                             // right
                             case 39:
-                                tetromino = actionSvc.moveRight($scope.grid, $scope.tetromino);
-                                tetrisService.setTetromino(tetromino);
-                                $scope.$apply();
+                                actionSvc.moveRight(grid, tetromino);
                                 break;
+
                             // down
                             case 40:
-                                tetromino = actionSvc.moveDown($scope.grid, $scope.tetromino);
-                                tetrisService.setTetromino(tetromino);
+                                actionSvc.moveDown(grid, tetromino);
                                 $scope.restartLoop();
                                 break;
                         }
+
+                        $scope.$apply();
                     }
                 });
             }

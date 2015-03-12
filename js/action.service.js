@@ -2,25 +2,8 @@
 
     "use strict";
 
-    function actionService(collisionSvc) {
-        var actionService = {
-//            moveHorizontal: moveHorizontal,
-            moveRight: moveRight,
-            moveLeft: moveLeft,
-            moveDown: moveDown,
-            rotate: rotate,
-            landTetromino: landTetromino,
-            clearLines: clearLines,
-            insertEmptyRows: insertEmptyRows
-        };
-//        function moveHorizontal(grid, tetromino, moveX) {
-//            if (!collisionSvc.isCollisionHorizontal(grid, tetromino, moveX)) {
-//                tetromino.topLeft.x += moveX;
-//                tetromino.screenPosition.x = tetromino.topLeft.x * 20 + 1;
-//                console.log("moved " + (moveX > 0 ? "right" : "left"));
-//            }
-//            return tetromino;
-//        }
+    function actionService(collisionSvc, tetrisService, scoreSvc, tetrominoSvc, $interval) {
+
         function moveRight(grid, tetromino) {
             var moveX = 1;
             if (!collisionSvc.isCollisionRight(grid, tetromino, moveX)) {
@@ -28,35 +11,56 @@
                 tetromino.screenPosition.x = tetromino.topLeft.x * 20 + 1;
                 console.log("moved right");
             }
-            return tetromino;
         }
-        function moveLeft(grid, tetromino, moveX) {
+        function moveLeft(grid, tetromino) {
             var moveX = -1;
             if (!collisionSvc.isCollisionLeft(grid, tetromino, moveX)) {
                 tetromino.topLeft.x += moveX;
                 tetromino.screenPosition.x = tetromino.topLeft.x * 20 + 1;
                 console.log("moved left");
             }
-            return tetromino;
         }
+
         function moveDown(grid, tetromino) {
 
-            if (!collisionSvc.isCollisionVertical(grid, tetromino)) {
+            if ( collisionSvc.isCollisionVertical(grid, tetromino) ) {
+
+                if (collisionSvc.isGameOver(tetromino)) {
+                    // todo!
+                    // gameOver();
+                }
+                else {
+                    // copy tetromino to 'landed' grid
+                    grid = landTetromino(grid, tetromino);
+
+                    // remove lines if necessary
+                    var gridCleared = clearLines(grid);
+
+                    var numLinesCleared = grid.length - gridCleared.length;
+                    scoreSvc.updateScore(numLinesCleared);
+
+                    grid = insertEmptyRows(numLinesCleared, gridCleared);
+                    tetrisService.setGrid(grid);
+
+                    // new tetromino
+                    tetromino = tetrominoSvc.updateQueue();
+                    tetrisService.setTetromino(tetromino);
+                }
+            }
+            else {
                 tetromino.topLeft.y++;
                 tetromino.screenPosition.y = tetromino.topLeft.y * 20 + 1;
+                tetrisService.setTetromino(tetromino);
                 console.log("moved down");
             }
-            return tetromino;
         }
+
         function rotate(grid, tetromino) {
             var rotatedTetromino = angular.copy(tetromino);
             rotatedTetromino.shape = rotateMatrixCW(rotatedTetromino.shape);
             if ( !collisionSvc.isCollisionRight(grid, rotatedTetromino, 0) && !collisionSvc.isCollisionVertical(grid, rotatedTetromino) ) {
-                return rotatedTetromino;
+                tetrisService.setTetromino(rotatedTetromino);
                 console.log("rotated");
-            }
-            else {
-                return tetromino;
             }
         }
 
@@ -128,7 +132,26 @@
             }
             return grid;
         }
-        return actionService;
+
+        function gameOver() {
+            var loop = tetrisService.getLoop();
+            $interval.cancel(loop);
+            tetrisService.setLoop(null);
+
+            console.log("game over");
+        }
+
+        return {
+            moveRight: moveRight,
+            moveLeft: moveLeft,
+            moveDown: moveDown,
+            rotate: rotate,
+            landTetromino: landTetromino,
+            clearLines: clearLines,
+            insertEmptyRows: insertEmptyRows,
+            gameOver: gameOver
+        };
+
     }
     angular
         .module("app")
