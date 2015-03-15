@@ -28,10 +28,10 @@
             disableKeys = true;
 
             var moveX = 1;
-            if (!collisionSvc.isCollisionRight(grid, tetromino, moveX)) {
+            if (!collisionSvc.isCollisionHorizontal(grid, tetromino, moveX)) {
                 tetromino.topLeft.x += moveX;
                 tetromino.screenPosition.x = tetromino.topLeft.x * 20 + 1;
-//                console.log("moved right");
+                console.log("moved right");
             }
 
             disableKeys = false;
@@ -41,10 +41,10 @@
             disableKeys = true;
 
             var moveX = -1;
-            if (!collisionSvc.isCollisionLeft(grid, tetromino, moveX)) {
+            if (!collisionSvc.isCollisionHorizontal(grid, tetromino, moveX)) {
                 tetromino.topLeft.x += moveX;
                 tetromino.screenPosition.x = tetromino.topLeft.x * 20 + 1;
-//                console.log("moved left");
+                console.log("moved left");
             }
 
             disableKeys = false;
@@ -95,9 +95,9 @@
 
             var rotatedTetromino = angular.copy(tetromino);
             rotatedTetromino.shape = rotateMatrixCW(rotatedTetromino.shape);
-            if ( !collisionSvc.isCollisionRight(grid, rotatedTetromino, 0) && !collisionSvc.isCollisionVertical(grid, rotatedTetromino) ) {
+            if ( !collisionSvc.isCollisionRotation(grid, rotatedTetromino) ) {
                 tetrisService.setTetromino(rotatedTetromino);
-//                console.log("rotated");
+                console.log("rotated");
             }
 
             disableKeys = false;

@@ -3,64 +3,92 @@
     "use strict";
 
     function collisionService() {
+
         var collisionService = {
-            isCollisionLeft: isCollisionLeft,
-            isCollisionRight: isCollisionRight,
+            isCollisionRotation: isCollisionRotation,
             isCollisionVertical: isCollisionVertical,
+            isCollisionHorizontal: isCollisionHorizontal,
             isGameOver: isGameOver
         };
 
-        function isCollisionLeft(grid, tetromino, moveX) {
+        function isCollisionRotation(grid, tetromino) {
             if (tetromino && grid) {
-                var potentialY = (tetromino.topLeft.y > 0) ? tetromino.topLeft.y : 0,
-                    potentialXLeft;
 
-                // grid left
-                potentialXLeft = tetromino.topLeft.x + moveX;
-                if (potentialXLeft < 0) {
-                    console.log("collision: GRID LEFT");
-                    return true;
-                }
+                var potentialGrid = {};
 
-                // other tetromino
-                potentialXLeft = tetromino.topLeft.x - 1;
                 for (var y = 0; y < tetromino.shape.length; y++) {
-                    potentialY += y;
+                    potentialGrid.y = y + tetromino.topLeft.y;
 
-                    if (grid[potentialY][potentialXLeft].value === 1 && tetromino.shape[y][0] === 1) {
-                        console.log("collision: LEFT");
-                        return true;
+                    for (var x = 0; x < tetromino.shape[y].length; x++) {
+                        potentialGrid.x = x + tetromino.topLeft.x;
+
+                        if (tetromino.shape[y][x] !== 0) {
+
+                            if (potentialGrid.x < 0) {
+                                //this block would be to the left of the playing field
+                                console.log("collision: rotation left");
+                                return true;
+                            }
+                            else if (potentialGrid.x >= grid[0].length) {
+                                //this block would be to the right of the playing field
+                                console.log("collision: rotation right");
+                                return true;
+                            }
+                            else if (potentialGrid.y >= grid.length) {
+                                //this block would be below the playing field
+                                console.log("collision: bottom");
+                                return true;
+                            }
+                            else if(potentialGrid.y >= 0 && potentialGrid.x >= 0) {
+                                if (grid[potentialGrid.y][potentialGrid.x].value !== 0) {
+                                    //the space is taken
+                                    console.log("collision: rotation tetromino");
+                                    return true;
+                                }
+                            }
+                        }
                     }
                 }
             }
             return false;
         }
 
-        function isCollisionRight(grid, tetromino, moveX) {
-            if (grid && tetromino) {
-                var potentialY = (tetromino.topLeft.y > 0) ? tetromino.topLeft.y : 0,
-                    potentialXRight;
+        function isCollisionHorizontal(grid, tetromino, moveX) {
+            if (tetromino && grid) {
 
-                // grid right
-                potentialXRight = tetromino.topLeft.x + tetromino.shape[0].length - 1 + moveX;
-                if (potentialXRight >= grid[0].length) {
-                    console.log("collision: GRID RIGHT");
-                    return true;
-                }
+                var potentialTopLeft = {
+                    x: tetromino.topLeft.x + moveX,
+                    y: tetromino.topLeft.y
+                };
+                var potentialGrid = {};
 
-                // other tetromino
-                potentialXRight = tetromino.topLeft.x + tetromino.shape[0].length;
                 for (var y = 0; y < tetromino.shape.length; y++) {
-                    potentialY += y;
+                    potentialGrid.y = y + potentialTopLeft.y;
 
-                    if (typeof grid[potentialY][potentialXRight] === "undefined") {
-                        console.log("collision: RIGHT");
-                        return true;
-                    }
-                    else if (grid[potentialY][potentialXRight].value === 1 &&
-                        tetromino.shape[y][tetromino.shape[0].length-1] ===  1) {
-                        console.log("collision: RIGHT");
-                        return true;
+                    for (var x = 0; x < tetromino.shape[y].length; x++) {
+                        potentialGrid.x = x + potentialTopLeft.x;
+
+                        if (tetromino.shape[y][x] !== 0) {
+
+                            if (potentialGrid.x < 0 ) {
+                                console.log("collision: grid left");
+                                return true;
+                            }
+                            else if (potentialGrid.x >= grid[0].length) {
+                                console.log("collision: grid right");
+                                return true;
+                            }
+                            else if ( potentialGrid.y >= 0 && potentialGrid.x >= 0 ) {
+                                if (moveX < 0 && grid[potentialGrid.y][potentialGrid.x].value !== 0) {
+                                    console.log("collision: tetromino left");
+                                    return true;
+                                }
+                                else if (moveX > 0 && grid[potentialGrid.y][potentialGrid.x].value !== 0) {
+                                    console.log("collision: tetromino right");
+                                    return true;
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -69,42 +97,41 @@
 
         function isCollisionVertical(grid, tetromino) {
             if (grid && tetromino) {
-                var tetrominoPotentialY = tetromino.topLeft.y + tetromino.shape.length + 1,
-                    gridPotentialY = tetromino.topLeft.y + 1,
-                    gridPotentialX = tetromino.topLeft.x,
-                    gridX, gridY;
 
-                // bottom of grid
-                if (tetrominoPotentialY > grid.length) {
-                    console.log("collision GRID BOTTOM");
-                    return true;
-                }
+                var potentialTopLeft = {
+                    x: tetromino.topLeft.x,
+                    y: tetromino.topLeft.y + 1
+                };
+                var potentialGrid = {};
 
-                // other tetromino
-                else {
-                    for (var y = 0; y < tetromino.shape.length; y++) {
+                for (var y = 0; y < tetromino.shape.length; y++) {
+                    potentialGrid.y = y + potentialTopLeft.y;
 
-                        for (var x = 0; x < tetromino.shape[y].length; x++) {
+                    for (var x = 0; x < tetromino.shape[y].length; x++) {
+                        potentialGrid.x = x + potentialTopLeft.x;
 
-                            if (tetromino.shape[y][x] === 1) {
-                                gridY = gridPotentialY + y;
-                                gridX = gridPotentialX + x;
-
-                                if (gridY >= 0) {
-
-                                    if (grid[gridY][gridX].value === 1) {
-                                        console.log("collision: DOWN");
-                                        return true;
-                                    }
+                        if (tetromino.shape[y][x] !== 0) {
+                            if ( potentialGrid.y >= grid.length ) {
+                                console.log("collision: grid bottom");
+                                return true;
+                            }
+                            else if ( potentialGrid.y >= 0 && potentialGrid.x >= 0 ) {
+                                if ( !grid[potentialGrid.y][potentialGrid.x] ) {
+                                    console.log("collision: tetromino bottom");
+                                    return true;
+                                }
+                                else if ( grid[potentialGrid.y][potentialGrid.x].value !== 0 ) {
+                                    console.log("collision: tetromino bottom");
+                                    return true;
                                 }
                             }
                         }
                     }
                 }
             }
-            // no collision
             return false;
         }
+
         function isGameOver(tetromino) {
             return tetromino.topLeft.y < 0;
         }

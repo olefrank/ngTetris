@@ -13,11 +13,14 @@ body {
     background: #222;
     height: 322px;
 }
+.tetris-sidebar {
+     color: #ccc;
+ }
 .tetromino {
     position: absolute;
 }
 .tetris-grid {
-    border: 1px solid black;
+    border: 1px solid #ccc;
     width: 202px;
 }
 .grid-cell,
