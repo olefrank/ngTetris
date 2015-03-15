@@ -23,7 +23,7 @@
 
         function updateScore(numLinesRemoved) {
             if (numLinesRemoved > 0) {
-                var exponent = numLinesRemoved-1;
+                var exponent = numLinesRemoved - 1;
                 score += Math.pow(2, exponent) * pointsPerLine;
             }
         }

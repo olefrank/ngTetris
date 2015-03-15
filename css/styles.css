@@ -10,7 +10,7 @@ body {
 }
 .tetris-grid-container,
 .tetris-sidebar {
-    background: #CCC;
+    background: #222;
     height: 322px;
 }
 .tetromino {

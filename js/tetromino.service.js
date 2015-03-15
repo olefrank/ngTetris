@@ -6,19 +6,19 @@
 
         var tetrominoQueue = [];
 
-        var tetrominoService = {
-            initQueue: initQueue,
-            updateQueue: updateQueue,
-            getTetrominoQueue: getTetrominoQueue
-        };
-
         function initQueue() {
             tetrominoQueue.push( factorySvc.createTetromino() );
             tetrominoQueue.push( factorySvc.createTetromino() );
         }
 
         function updateQueue() {
+            // init queue if necessary
+            if (tetrominoQueue.length < 2) {
+                initQueue();
+            }
+            // add to queue
             tetrominoQueue.push( factorySvc.createTetromino() );
+            // pop from queue;
             return tetrominoQueue.shift();
         }
 
@@ -26,7 +26,11 @@
             return tetrominoQueue;
         }
 
-        return tetrominoService;
+        return {
+                updateQueue: updateQueue,
+                getTetrominoQueue: getTetrominoQueue
+        };
+
     }
     angular
         .module("app")

@@ -2,7 +2,8 @@
 
     "use strict";
 
-    function tetrisController($interval, actionSvc, collisionSvc, factorySvc, tetrominoSvc, scoreSvc, tetrisService) {
+    function tetrisController($interval, actionSvc, factorySvc, tetrominoSvc, scoreSvc, tetrisService) {
+
         // variables
         var vm = this,
             btnStates = [
@@ -17,8 +18,7 @@
         };
         vm.tetromino = function() {
             return tetrisService.getTetromino();
-        }
-        vm.btnLabel;
+        };
 
         vm.getScore = function() {
             return scoreSvc.getScore();
@@ -82,7 +82,6 @@
             vm.btnLabel = btnStates[currentState];
 
             // tetromino
-            tetrominoSvc.initQueue();
             var tetromino = tetrominoSvc.updateQueue();
             tetrisService.setTetromino(tetromino);
 
@@ -92,7 +91,7 @@
 
             // misc
             scoreSvc.setScore(0);
-            console.log("game initialized");
+//            console.log("game initialized");
         };
 
         function getLoopSpeed() {
@@ -151,6 +150,6 @@
     }
     angular
         .module("app")
-        .controller("tetrisCtrl", ["$interval", "actionSvc", "collisionSvc", "factorySvc", "tetrominoSvc", "scoreSvc", "tetrisService", tetrisController]);
+        .controller("tetrisCtrl", tetrisController);
 
 })();
