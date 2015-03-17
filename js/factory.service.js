@@ -39,7 +39,7 @@
             for (var i = 0; i < rows; i++) {
                 var row = [];
                 for (var j = 0; j < cols; j++) {
-                    var props = { "value": 0, "color": ""};
+                    var props = { "value": 0, "class": ""};
                     row[j] = props;
                 }
                 grid[i] = row;

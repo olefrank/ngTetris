@@ -19,7 +19,7 @@
                     [1, 1],
                     [1, 1]
                 ],
-                color: "yellow"
+                class:"shape-o"
             },
             "L": {
                 shape: [
@@ -27,7 +27,7 @@
                     [1, 0],
                     [1, 1]
                 ],
-                color: "pink"
+                class:"shape-l"
             },
             "J": {
                 shape: [
@@ -35,7 +35,7 @@
                     [0, 1],
                     [1, 1]
                 ],
-                color: "blue"
+                class:"shape-j"
             },
             "I": {
                 shape: [
@@ -44,28 +44,28 @@
                     [1],
                     [1]
                 ],
-                color: "lightblue"
+                class:"shape-i"
             },
             "S": {
                 shape: [
                     [0, 1, 1],
                     [1, 1, 0]
                 ],
-                color: "green"
+                class:"shape-s"
             },
             "Z": {
                 shape: [
                     [1, 1, 0],
                     [0, 1, 1]
                 ],
-                color: "red"
+                class:"shape-z"
             },
             "T": {
                 shape: [
                     [1, 1, 1],
                     [0, 1, 0]
                 ],
-                color: "purple"
+                class:"shape-t"
             }
         };
 

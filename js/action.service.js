@@ -4,10 +4,7 @@
 
     function actionService(collisionSvc, tetrisService, scoreSvc, tetrominoSvc, $interval) {
 
-        var disableKeys = false;
-
         var service = {
-            getDisableKeys: getDisableKeys,
             moveRight: moveRight,
             moveLeft: moveLeft,
             moveDown: moveDown,
@@ -20,39 +17,25 @@
 
         return service;
 
-        function getDisableKeys() {
-            return disableKeys;
-        }
-
         function moveRight(grid, tetromino) {
-            disableKeys = true;
-
             var moveX = 1;
             if (!collisionSvc.isCollisionHorizontal(grid, tetromino, moveX)) {
                 tetromino.topLeft.x += moveX;
                 tetromino.screenPosition.x = tetromino.topLeft.x * 20 + 1;
-                console.log("moved right");
+//                console.log("moved right");
             }
-
-            disableKeys = false;
         }
 
         function moveLeft(grid, tetromino) {
-            disableKeys = true;
-
             var moveX = -1;
             if (!collisionSvc.isCollisionHorizontal(grid, tetromino, moveX)) {
                 tetromino.topLeft.x += moveX;
                 tetromino.screenPosition.x = tetromino.topLeft.x * 20 + 1;
-                console.log("moved left");
+//                console.log("moved left");
             }
-
-            disableKeys = false;
         }
 
         function moveDown(grid, tetromino) {
-            disableKeys = true;
-
             if ( collisionSvc.isCollisionVertical(grid, tetromino) ) {
 
                 if (collisionSvc.isGameOver(tetromino)) {
@@ -86,21 +69,15 @@
                 tetrisService.setTetromino(tetromino);
 //                console.log("moved down");
             }
-
-            disableKeys = false;
         }
 
         function rotate(grid, tetromino) {
-            disableKeys = true;
-
             var rotatedTetromino = angular.copy(tetromino);
             rotatedTetromino.shape = rotateMatrixCW(rotatedTetromino.shape);
             if ( !collisionSvc.isCollisionRotation(grid, rotatedTetromino) ) {
                 tetrisService.setTetromino(rotatedTetromino);
-                console.log("rotated");
+//                console.log("rotated");
             }
-
-            disableKeys = false;
         }
 
         function rotateMatrixCW(matrix) {
@@ -140,13 +117,11 @@
                         gridY = tetromino.topLeft.y + y;
                         gridX = tetromino.topLeft.x + x;
                         grid[gridY][gridX].value = 1;
-                        grid[gridY][gridX].color = tetromino.color;
+                        grid[gridY][gridX].class = tetromino.class;
                     }
                 }
             }
-
             tetrisService.setGrid(grid);
-
 //            console.log("tetromino landed in grid");
             return grid;
         }
@@ -171,19 +146,20 @@
             return result;
         }
         function insertEmptyRows(num, grid) {
+            console.log(grid);
             // insert removed lines in top
             while (num > 0) {
                 grid.unshift([
-                    {color: "", value: 0},
-                    {color: "", value: 0},
-                    {color: "", value: 0},
-                    {color: "", value: 0},
-                    {color: "", value: 0},
-                    {color: "", value: 0},
-                    {color: "", value: 0},
-                    {color: "", value: 0},
-                    {color: "", value: 0},
-                    {color: "", value: 0}
+                    {class: "", value: 0},
+                    {class: "", value: 0},
+                    {class: "", value: 0},
+                    {class: "", value: 0},
+                    {class: "", value: 0},
+                    {class: "", value: 0},
+                    {class: "", value: 0},
+                    {class: "", value: 0},
+                    {class: "", value: 0},
+                    {class: "", value: 0}
                 ]);
                 num--;
             }
@@ -194,8 +170,7 @@
             var loop = tetrisService.getLoop();
             $interval.cancel(loop);
             tetrisService.setLoop(null);
-
-//            console.log("game over");
+            console.log("game over");
         }
 
     }

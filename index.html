@@ -33,15 +33,14 @@
                     <!--current tetromino-->
                     <div class="tetromino" ng-style="Tetris.tetrominoScreenPosition()">
                         <div ng-repeat="row in Tetris.tetromino().shape track by $index">
-                            <div class="tetromino-cell" ng-style="cell == 1 && {'background-color': Tetris.tetromino().color}" ng-repeat="cell in row track by $index">&nbsp;</div>
+                            <div class="tetromino-cell" ng-class="cell == 1 && Tetris.tetromino().class" ng-repeat="cell in row track by $index">&nbsp;</div>
                         </div>
                     </div>
 
                     <!-- grid -->
                     <div class="tetris-grid">
                         <div class="grid-row" ng-repeat="row in Tetris.grid() track by $index">
-                            <div class="grid-cell" ng-style="cell.value == 1 && {'background-color': cell.color}" ng-repeat="cell in row track by $index">&nbsp;</div>
-                            <!-- cell: { value: 1, color: blue } -->
+                            <div class="grid-cell" ng-class="cell.value == 1 && cell.class" ng-repeat="cell in row track by $index">&nbsp;</div>
                         </div>
                     </div>
                 </div>
@@ -51,7 +50,7 @@
                     <h4>Score: {{ Tetris.getScore() }}</h4>
                     <p>Next up:</p>
                     <div class="grid-row" ng-repeat="row in Tetris.getNextTetromino().shape track by $index">
-                        <div class="grid-cell" ng-style="cell == 1 && {'background-color': Tetris.getNextTetromino().color}" ng-repeat="cell in row track by $index">&nbsp;</div>
+                        <div class="grid-cell" ng-class="cell == 1 && Tetris.getNextTetromino().class" ng-repeat="cell in row track by $index">&nbsp;</div>
                     </div>
                 </div>
             </div>
