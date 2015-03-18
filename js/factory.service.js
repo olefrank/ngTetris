@@ -22,8 +22,10 @@
             angular.extend(tetromino, topLeft);
 
             var screenPosition = { screenPosition: {} };
-            screenPosition.screenPosition.x = topLeft.topLeft.x * 20;
-            screenPosition.screenPosition.y = topLeft.topLeft.y * 20;
+//            screenPosition.screenPosition.x = topLeft.topLeft.x * 20;
+//            screenPosition.screenPosition.y = topLeft.topLeft.y * 20;
+            screenPosition.screenPosition.x = (topLeft.topLeft.x * 20) + (topLeft.topLeft.x * 2);
+            screenPosition.screenPosition.y = (topLeft.topLeft.y * 20) + (topLeft.topLeft.y * 2);
             angular.extend(tetromino, screenPosition);
 
             return tetromino;

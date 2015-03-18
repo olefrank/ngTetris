@@ -3,8 +3,8 @@
 <html lang="da" ng-app="app">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="">
@@ -12,7 +12,8 @@
     <title>Starter Template for Bootstrap</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--<link href="lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">-->
+    <link href="css/reset.css" rel="stylesheet">
     <link href="css/styles.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -23,47 +24,58 @@
 </head>
 
 <body ng-controller="tetrisCtrl as Tetris" ng-init="Tetris.initGame()" ng-cloak>
-    <keydown-handler tetromino="Tetris.tetromino()" grid="Tetris.grid()" restart-loop="Tetris.restartLoop()" />
-    <div class="container">
+    <keydown-handler tetromino="Tetris.tetromino()" grid="Tetris.grid()" restart-loop="Tetris.restartLoop()"></keydown-handler>
 
-        <div class="row">
-            <div class="col-md-8">
-                <div class="tetris-grid-container">
+    <div class="wrapper">
 
-                    <!--current tetromino-->
-                    <div class="tetromino" ng-style="Tetris.tetrominoScreenPosition()">
-                        <div ng-repeat="row in Tetris.tetromino().shape track by $index">
-                            <div class="tetromino-cell" ng-class="cell == 1 && Tetris.tetromino().class" ng-repeat="cell in row track by $index">&nbsp;</div>
-                        </div>
-                    </div>
+        <h1>Oles Tetris</h1>
 
-                    <!-- grid -->
-                    <div class="tetris-grid">
-                        <div class="grid-row" ng-repeat="row in Tetris.grid() track by $index">
-                            <div class="grid-cell" ng-class="cell.value == 1 && cell.class" ng-repeat="cell in row track by $index">&nbsp;</div>
-                        </div>
+        <div class="main-container">
+
+            <div class="grid-container">
+
+                <!--current tetromino-->
+                <div class="tetromino" ng-style="Tetris.tetrominoScreenPosition()">
+                    <div ng-repeat="row in Tetris.tetromino().shape track by $index">
+                        <div class="tetromino-cell" ng-class="cell == 1 && Tetris.tetromino().class" ng-repeat="cell in row track by $index">&nbsp;</div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="tetris-sidebar">
+
+                <!-- grid -->
+                <div class="grid">
+                    <div class="grid-row" ng-repeat="row in Tetris.grid() track by $index">
+                        <div class="grid-cell" ng-class="cell.value == 1 && cell.class" ng-repeat="cell in row track by $index">&nbsp;</div>
+                    </div>
+                </div>
+
+            </div> <!-- END tetris-grid-container -->
+
+            <div class="sidebar">
+
+                <div class="score">
                     <h4>Score: {{ Tetris.getScore() }}</h4>
+                </div>
+
+                <div class="next-up">
                     <p>Next up:</p>
                     <div class="grid-row" ng-repeat="row in Tetris.getNextTetromino().shape track by $index">
-                        <div class="grid-cell" ng-class="cell == 1 && Tetris.getNextTetromino().class" ng-repeat="cell in row track by $index">&nbsp;</div>
+                        <div class="grid-cell-sidebar" ng-class="cell == 1 && Tetris.getNextTetromino().class" ng-repeat="cell in row track by $index">&nbsp;</div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <button ng-click="Tetris.btnClickHandler()">{{ Tetris.btnLabel }}</button>
-        </div>
-    </div>
 
+                <div class="btn-container">
+                    <button class="btn-start" ng-click="Tetris.btnClickHandler()">{{ Tetris.btnLabel }}</button>
+                </div>
+
+            </div> <!-- END tetris-sidebar -->
+
+        </div>
+
+    </div>
 
     <!-- ================================================== -->
     <script src="lib/jquery/dist/jquery.min.js"></script>
-    <script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!--<script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>-->
     <script src="lib/angular/angular.min.js"></script>
     <script src="lib/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script src="js/app.js"></script>

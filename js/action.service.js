@@ -21,7 +21,7 @@
             var moveX = 1;
             if (!collisionSvc.isCollisionHorizontal(grid, tetromino, moveX)) {
                 tetromino.topLeft.x += moveX;
-                tetromino.screenPosition.x = tetromino.topLeft.x * 20 + 1;
+                tetromino.screenPosition.x = (tetromino.topLeft.x * 20) + (tetromino.topLeft.x * 2);
 //                console.log("moved right");
             }
         }
@@ -30,7 +30,7 @@
             var moveX = -1;
             if (!collisionSvc.isCollisionHorizontal(grid, tetromino, moveX)) {
                 tetromino.topLeft.x += moveX;
-                tetromino.screenPosition.x = tetromino.topLeft.x * 20 + 1;
+                tetromino.screenPosition.x = (tetromino.topLeft.x * 20) + (tetromino.topLeft.x * 2);
 //                console.log("moved left");
             }
         }
@@ -65,7 +65,7 @@
             }
             else {
                 tetromino.topLeft.y++;
-                tetromino.screenPosition.y = tetromino.topLeft.y * 20 + 1;
+                tetromino.screenPosition.y = (tetromino.topLeft.y * 20) + (tetromino.topLeft.y * 2);
                 tetrisService.setTetromino(tetromino);
 //                console.log("moved down");
             }

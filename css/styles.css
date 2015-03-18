@@ -1,30 +1,80 @@
+/*
+ *
+ *  UTILITY
+ *
+ */
+
+
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
     display: none !important;
 }
 
+.clearfix:after {
+    content:"";
+    display:table;
+    clear:both;
+}
+
 body {
     background: #121212;
+    color: #ccc;
+    font-family: Georgia serif;
 }
-.tetris-grid-container {
-    position: relative;
-}
-.tetris-grid-container,
-.tetris-sidebar {
+
+.wrapper {
     background: #222;
-    height: 322px;
+    width: 480px;
+    margin: 20px auto;
+    text-align: center;
+    border: 6px solid white;
+    padding: 10px 0;
 }
-.tetris-sidebar {
-     color: #ccc;
- }
+
+
+
+/*
+ *
+ *  TYPOGRAPHY
+ *
+ */
+h1 {
+    font-size: 46pt;
+    font-weight: bold;
+}
+
+
+
+/*
+ *
+ *  MAIN
+ *
+ */
+
+.main-container {
+    margin: 20px auto;
+    position: relative;
+    width: 222px;
+    height: 352px;
+}
+.grid-container {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #333;
+}
 .tetromino {
     position: absolute;
 }
-.tetris-grid {
-    border: 1px solid #ccc;
-    width: 202px;
+.grid-cell {
+    background-color: #272727;
 }
+.main-container,
 .grid-cell,
 .tetromino-cell {
+    border: 1px solid #222;
+}
+.grid-cell,
+.tetromino-cell,
+.grid-cell-sidebar {
     text-align: center;
     display: inline-block;
     height: 20px;
@@ -37,3 +87,26 @@ body {
 .shape-s {background-color: green;}
 .shape-z {background-color: red;}
 .shape-t {background-color: purple;}
+
+
+
+/*
+ *
+ *  SIDEBAR
+ *
+ */
+
+.sidebar {
+    color: #ccc;
+    position: absolute;
+    top: 0;
+    right: -90px;
+    width: 66px;
+}
+.score, .next-up {
+    margin-bottom: 20px;
+}
+
+.grid-cell-sidebar {
+    border: 1px solid #222;
+}
