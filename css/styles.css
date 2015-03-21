@@ -3,8 +3,6 @@
  *  UTILITY
  *
  */
-
-
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
     display: none !important;
 }
@@ -19,16 +17,20 @@ body {
     background: #121212;
     color: #ccc;
     font-family: Georgia serif;
+    line-height: 1;
 }
 
 .wrapper {
     background: #222;
     width: 480px;
     margin: 20px auto;
-    text-align: center;
     border: 6px solid white;
-    padding: 10px 0;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: center;
 }
+
+
 
 
 
@@ -37,10 +39,12 @@ body {
  *  TYPOGRAPHY
  *
  */
-h1 {
-    font-size: 46pt;
-    font-weight: bold;
+@font-face {
+    font-family: digital;
+    src: url("../fonts/digital-7.italic.ttf");
 }
+
+
 
 
 
@@ -49,36 +53,33 @@ h1 {
  *  MAIN
  *
  */
-
-.main-container {
-    margin: 20px auto;
-    position: relative;
-    width: 222px;
-    height: 352px;
-}
 .grid-container {
+    width: 222px;
     position: relative;
     overflow: hidden;
     border: 1px solid #333;
+    display: inline-block;
 }
-.tetromino {
-    position: absolute;
-}
-.grid-cell {
-    background-color: #272727;
-}
-.main-container,
+.tetromino { position: absolute; }
+
+.grid-cell { background-color: #272727; }
+
+.main-container,.grid-cell,.tetromino-cell { border: 1px solid #222; }
+
 .grid-cell,
 .tetromino-cell {
+    height: 20px;
+    width: 20px;
+}
+.grid-cell-sidebar {
+    width: 15px;
+    height: 15px;
     border: 1px solid #222;
 }
 .grid-cell,
 .tetromino-cell,
 .grid-cell-sidebar {
-    text-align: center;
     display: inline-block;
-    height: 20px;
-    width: 20px;
 }
 .shape-o {background-color: yellow;}
 .shape-l {background-color: pink;}
@@ -95,18 +96,24 @@ h1 {
  *  SIDEBAR
  *
  */
-
+.sidebar-container {
+    display: inline-block;
+    position: relative;
+    height: 0;
+    width: 0;
+    vertical-align: top;
+}
 .sidebar {
     color: #ccc;
+    font-family: Arial;
+    display: inline-block;
     position: absolute;
-    top: 0;
-    right: -90px;
-    width: 66px;
+    width: 80px;
+}
+.score {
+    font-family: digital;
+    font-size: 2.5em;
 }
 .score, .next-up {
     margin-bottom: 20px;
-}
-
-.grid-cell-sidebar {
-    border: 1px solid #222;
 }

@@ -28,50 +28,41 @@
 
     <div class="wrapper">
 
-        <h1>Oles Tetris</h1>
-
-        <div class="main-container">
-
-            <div class="grid-container">
-
-                <!--current tetromino-->
-                <div class="tetromino" ng-style="Tetris.tetrominoScreenPosition()">
-                    <div ng-repeat="row in Tetris.tetromino().shape track by $index">
-                        <div class="tetromino-cell" ng-class="cell == 1 && Tetris.tetromino().class" ng-repeat="cell in row track by $index">&nbsp;</div>
-                    </div>
+        <div class="grid-container">
+            <!--current tetromino-->
+            <div class="tetromino" ng-style="Tetris.tetrominoScreenPosition()">
+                <div ng-repeat="row in Tetris.tetromino().shape track by $index">
+                    <div class="tetromino-cell" ng-class="cell == 1 && Tetris.tetromino().class" ng-repeat="cell in row track by $index">&nbsp;</div>
                 </div>
-
-                <!-- grid -->
-                <div class="grid">
-                    <div class="grid-row" ng-repeat="row in Tetris.grid() track by $index">
-                        <div class="grid-cell" ng-class="cell.value == 1 && cell.class" ng-repeat="cell in row track by $index">&nbsp;</div>
-                    </div>
+            </div>
+            <!-- grid -->
+            <div class="grid">
+                <div class="grid-row" ng-repeat="row in Tetris.grid() track by $index">
+                    <div class="grid-cell" ng-class="cell.value == 1 && cell.class" ng-repeat="cell in row track by $index">&nbsp;</div>
                 </div>
+            </div>
+        </div> <!-- END tetris-grid-container -->
 
-            </div> <!-- END tetris-grid-container -->
-
+        <div class="sidebar-container">
             <div class="sidebar">
-
+                <!-- score -->
                 <div class="score">
-                    <h4>Score: {{ Tetris.getScore() }}</h4>
+                    <h4>{{ Tetris.getScore() }}</h4>
                 </div>
-
+                <!-- next up -->
                 <div class="next-up">
-                    <p>Next up:</p>
                     <div class="grid-row" ng-repeat="row in Tetris.getNextTetromino().shape track by $index">
                         <div class="grid-cell-sidebar" ng-class="cell == 1 && Tetris.getNextTetromino().class" ng-repeat="cell in row track by $index">&nbsp;</div>
                     </div>
                 </div>
-
+                <!-- button -->
                 <div class="btn-container">
                     <button class="btn-start" ng-click="Tetris.btnClickHandler()">{{ Tetris.btnLabel }}</button>
                 </div>
+            </div> <!-- END sidebar -->
+        </div> <!-- END sidebar-container -->
 
-            </div> <!-- END tetris-sidebar -->
-
-        </div>
-
-    </div>
+    </div> <!-- END wrapper -->
 
     <!-- ================================================== -->
     <script src="lib/jquery/dist/jquery.min.js"></script>
