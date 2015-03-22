@@ -24,7 +24,7 @@
 </head>
 
 <body ng-controller="tetrisCtrl as Tetris" ng-init="Tetris.initGame()" ng-cloak>
-    <keydown-handler tetromino="Tetris.tetromino()" grid="Tetris.grid()" restart-loop="Tetris.restartLoop()"></keydown-handler>
+    <keydown-handler tetromino="Tetris.tetromino()" grid="Tetris.grid()"></keydown-handler>
 
     <div class="wrapper">
 
@@ -57,7 +57,7 @@
                 </div>
                 <!-- button -->
                 <div class="btn-container">
-                    <button class="btn-start" ng-click="Tetris.btnClickHandler()">{{ Tetris.btnLabel }}</button>
+                    <button class="btn-start" ng-click="Tetris.btnClickHandler()">{{ Tetris.getBtnLabel() }}</button>
                 </div>
             </div> <!-- END sidebar -->
         </div> <!-- END sidebar-container -->
@@ -79,6 +79,7 @@
     <script src="js/tetromino.service.js"></script>
     <script src="js/score.service.js"></script>
     <script src="js/tetris.service.js"></script>
+    <script src="js/btnHandler.service.js"></script>
 
 </body>
 </html>

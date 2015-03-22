@@ -2,15 +2,10 @@
 
     "use strict";
 
-    function tetrisController($interval, actionSvc, factorySvc, tetrominoSvc, scoreSvc, tetrisService) {
+    function tetrisController(tetrominoSvc, scoreSvc, tetrisService, btnHandlerService, actionSvc) {
 
         // variables
-        var vm = this,
-            btnStates = [
-                "Start",
-                "Stop"
-            ],
-            currentState;
+        var vm = this;
 
         // view models
         vm.grid = function() {
@@ -41,113 +36,19 @@
             return result;
         };
 
-        vm.restartLoop = function() {
-
-            var grid,
-                tetromino,
-                loop = tetrisService.getLoop();
-
-            // stop loop
-            $interval.cancel(loop);
-
-            // start new loop
-            var newLoop = $interval(function () {
-
-                grid = tetrisService.getGrid();
-                tetromino = tetrisService.getTetromino();
-                actionSvc.moveDown(grid, tetromino);
-
-            }, getLoopSpeed());
-
-            tetrisService.setLoop(newLoop);
-        };
-
         vm.btnClickHandler = function() {
-            // switch states
-            switch (currentState) {
-                case 0 :
-                    vm.initGame();
-                    startGame();
-                    break;
-                case 1 :
-                    stopGame();
-                    break;
-            }
-            nextBtnState();
+            btnHandlerService.handleClick();
         };
 
         vm.initGame = function() {
-            // update button label
-            currentState = 0;
-            vm.btnLabel = btnStates[currentState];
-
-            // tetromino
-            var tetromino = tetrominoSvc.updateQueue();
-            tetrisService.setTetromino(tetromino);
-
-            // grid
-            var grid = factorySvc.createGrid(16, 10);
-            tetrisService.setGrid(grid);
-
-            // misc
-            scoreSvc.setScore(0);
-            console.log("game initialized");
+            actionSvc.initGame();
         };
 
-        function getLoopSpeed() {
-            var result = 1000;
-//            if (scoreSvc.getScore() >= 100 && scoreSvc.getScore() < 200) {
-//                result = 900;
-//            }
-//            else if (scoreSvc.getScore() >= 200 && scoreSvc.getScore() < 300) {
-//                result = 800;
-//            }
-//            else if (scoreSvc.getScore() >= 300 && scoreSvc.getScore() < 400) {
-//                result = 700;
-//            }
-//            else if (scoreSvc.getScore() >= 400 && scoreSvc.getScore() < 500) {
-//                result = 600;
-//            }
-//            else if (scoreSvc.getScore() >= 500 && scoreSvc.getScore() < 600) {
-//                result = 500;
-//            }
-//            else if (scoreSvc.getScore() >= 600 && scoreSvc.getScore() < 700) {
-//                result = 400;
-//            }
-//            else if (scoreSvc.getScore() >= 700 && scoreSvc.getScore() < 800) {
-//                result = 300;
-//            }
-//            else if (scoreSvc.getScore() >= 800 && scoreSvc.getScore() < 900) {
-//                result = 200;
-//            }
-//            else if (scoreSvc.getScore() >= 900 && scoreSvc.getScore() < 1000) {
-//                result = 100;
-//            }
-//            else if (scoreSvc.getScore() >= 1000 && scoreSvc.getScore() < 1100) {
-//                result = 50;
-//            }
-//            else if (scoreSvc.getScore() >= 1100 && scoreSvc.getScore() < 1200) {
-//                result = 25;
-//            }
-            return result;
-        }
-
-        function nextBtnState() {
-            // switch to next state
-            currentState = (currentState + 1) % btnStates.length;
-            // update button label
-            vm.btnLabel = btnStates[currentState];
-        }
-
-        function startGame() {
-            vm.restartLoop();
-        }
-
-        function stopGame() {
-            actionSvc.gameOver();
-        }
-
+        vm.getBtnLabel = function() {
+            return btnHandlerService.getBtnLabel();
+        };
     }
+
     angular
         .module("app")
         .controller("tetrisCtrl", tetrisController);
