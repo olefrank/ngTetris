@@ -32,39 +32,26 @@
 
         function getLoopSpeed() {
             var result = 1000;
-//            if (scoreSvc.getScore() >= 100 && scoreSvc.getScore() < 200) {
-//                result = 900;
-//            }
-//            else if (scoreSvc.getScore() >= 200 && scoreSvc.getScore() < 300) {
-//                result = 800;
-//            }
-//            else if (scoreSvc.getScore() >= 300 && scoreSvc.getScore() < 400) {
-//                result = 700;
-//            }
-//            else if (scoreSvc.getScore() >= 400 && scoreSvc.getScore() < 500) {
-//                result = 600;
-//            }
-//            else if (scoreSvc.getScore() >= 500 && scoreSvc.getScore() < 600) {
-//                result = 500;
-//            }
-//            else if (scoreSvc.getScore() >= 600 && scoreSvc.getScore() < 700) {
-//                result = 400;
-//            }
-//            else if (scoreSvc.getScore() >= 700 && scoreSvc.getScore() < 800) {
-//                result = 300;
-//            }
-//            else if (scoreSvc.getScore() >= 800 && scoreSvc.getScore() < 900) {
-//                result = 200;
-//            }
-//            else if (scoreSvc.getScore() >= 900 && scoreSvc.getScore() < 1000) {
-//                result = 100;
-//            }
-//            else if (scoreSvc.getScore() >= 1000 && scoreSvc.getScore() < 1100) {
-//                result = 50;
-//            }
-//            else if (scoreSvc.getScore() >= 1100 && scoreSvc.getScore() < 1200) {
-//                result = 25;
-//            }
+
+            if (score > 1000) {
+                result = 900;
+            }
+            if (score > 1500) {
+                result = 800;
+            }
+            if (score > 2000) {
+                result = 800;
+            }
+            if (score > 2500) {
+                result = 700;
+            }
+            if (score > 3000) {
+                result = 600;
+            }
+            if (score > 3500) {
+                result = 500;
+            }
+
             return result;
         }
 

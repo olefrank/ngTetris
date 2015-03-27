@@ -19,7 +19,7 @@
             // switch states
             switch (currentState) {
                 case 0 :
-                    actionSvc.initGame();
+                    actionSvc.startGame();
                     actionSvc.restartLoop();
                     break;
                 case 1 :

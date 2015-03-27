@@ -2,7 +2,7 @@
 
     "use strict";
 
-    function actionService(collisionSvc, tetrisService, scoreSvc, tetrominoSvc, $interval, factorySvc) {
+    function actionService(collisionSvc, tetrisService, scoreSvc, tetrominoSvc, $interval, factorySvc, splashService) {
 
         var service = {
             moveRight: moveRight,
@@ -15,7 +15,8 @@
             gameOver: gameOver,
             restartLoop: restartLoop,
             togglePause: togglePause,
-            initGame: initGame
+            initGame: initGame,
+            startGame: startGame
         };
 
         return service;
@@ -170,57 +171,68 @@
 
         function gameOver() {
             var loop = tetrisService.getLoop();
-            $interval.cancel(loop);
-            tetrisService.setLoop(null);
-            tetrisService.setKeysEnabled(false);
+            cancelLoop(loop);
+            tetrisService.setGameState("idle");
             console.log("game over");
         }
 
-        function restartLoop() {
-            var grid,
-                tetromino,
-                loop = tetrisService.getLoop();
-
-            // stop loop
-            $interval.cancel(loop);
-
-            // start new loop
-            var newLoop = $interval(function () {
-
-                grid = tetrisService.getGrid();
+        function gameLoop() {
+            var grid = tetrisService.getGrid(),
                 tetromino = tetrisService.getTetromino();
-                moveDown(grid, tetromino);
 
-            }, scoreSvc.getLoopSpeed());
+            moveDown(grid, tetromino);
+        }
 
-            tetrisService.setLoop(newLoop);
+        function cancelLoop(loop) {
+            $interval.cancel(loop);
+            loop = null;
+            tetrisService.setLoop(loop);
+        }
 
+        function restartLoop() {
+            var loop = tetrisService.getLoop();
+
+            if (loop) {
+                cancelLoop(loop);
+            }
+
+            loop = $interval(gameLoop, scoreSvc.getLoopSpeed(), 0, false);
+            tetrisService.setLoop(loop);
         }
 
         function togglePause() {
-            var isPaused = tetrisService.getIsPaused();
-            var loop = tetrisService.getLoop();
+            var gameState = tetrisService.getGameState();
 
+            switch (gameState) {
+                case "paused":
+                    restartLoop();
+                    splashService.close();
+                    tetrisService.setGameState("running");
+                    console.log("game state: " + tetrisService.getGameState());
+                    break;
 
-            if (isPaused) {
-                tetrisService.setIsPaused(false);
-                restartLoop();
-                tetrisService.setKeysEnabled(true);
-            }
-            else {
-                console.log("paused false");
-                tetrisService.setIsPaused(true);
-                $interval.cancel(loop);
-                tetrisService.setLoop(null);
-                tetrisService.setKeysEnabled(false);
-                console.log("game is paused");
+                case "running":
+                    splashService.open({
+                        title: 'Game is paused!',
+                        message: "Press 'p' to return"
+                    });
+
+                    var loop = tetrisService.getLoop();
+                    cancelLoop(loop);
+
+                    tetrisService.setGameState("paused");
+                    console.log("game state: " + tetrisService.getGameState());
+                    break;
+
+                case "idle":
+                    // todo!
+                    break;
             }
         }
 
         function initGame() {
             // tetromino
-            var tetromino = tetrominoSvc.updateQueue();
-            tetrisService.setTetromino(tetromino);
+            tetrisService.setTetromino(null);
 
             // grid
             var grid = factorySvc.createGrid(16, 10);
@@ -229,10 +241,22 @@
             // misc
             scoreSvc.setScore(0);
 
-            // enable keys
-            tetrisService.setKeysEnabled(true);
+            // set state
+            tetrisService.setGameState("idle");
+            console.log("game state: " + tetrisService.getGameState());
+        }
 
-            console.log("game initialized");
+        function startGame() {
+            // make sure game is initialized!
+            initGame();
+
+            // tetromino
+            var tetromino = tetrominoSvc.updateQueue();
+            tetrisService.setTetromino(tetromino);
+
+            // set state
+            tetrisService.setGameState("running");
+            console.log("game state: " + tetrisService.getGameState());
         }
 
     }

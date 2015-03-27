@@ -2,7 +2,7 @@
 
     "use strict";
 
-    function tetrisController(tetrominoSvc, scoreSvc, tetrisService, btnHandlerService, actionSvc) {
+    function tetrisController(tetrominoSvc, scoreSvc, tetrisService, btnHandlerService, actionSvc, $modal, $log) {
 
         // variables
         var vm = this;

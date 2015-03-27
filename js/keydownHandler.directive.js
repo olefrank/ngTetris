@@ -3,84 +3,91 @@
     "use strict";
 
     function keydownHandler($document, actionSvc, tetrisService) {
-        var keydownHandler = {
-            restrict: 'AE',
-            scope: {
-                "tetromino": "=",
-                "grid": "="
+
+        var states = [
+            {
+                name: "idle",
+                keysEnabled: []
             },
-            link: function($scope) {
-
-                $scope.$watch(function() {
-                    return tetrisService.getKeysEnabled();
-                }, function(newValue) {
-                    enableKeys(newValue);
-                });
-
-                function enableKeys(enable) {
-                    if (enable) {
-                        $document.off('keydown');
-                        $document.on('keydown', function(e) {
-
-                            var grid = tetrisService.getGrid(),
-                                tetromino = tetrisService.getTetromino();
-
-                            switch(e.which) {
-
-                                // left
-                                case 37:
-                                    actionSvc.moveLeft(grid, tetromino);
-                                    $scope.$apply();
-                                    break;
-
-                                // up
-                                case 38:
-                                    actionSvc.rotate(grid, tetromino);
-                                    $scope.$apply();
-                                    break;
-
-                                // right
-                                case 39:
-                                    actionSvc.moveRight(grid, tetromino);
-                                    $scope.$apply();
-                                    break;
-
-                                // down
-                                case 40:
-                                    actionSvc.moveDown(grid, tetromino);
-//                                    $scope.restartLoop();
-                                    actionSvc.restartLoop();
-                                    break;
-
-                                // p
-                                case 80:
-                                    actionSvc.togglePause();
-                                    break;
-                            }
-
-                        });
-                    }
-                    else {
-                        $document.off('keydown');
-                        $document.on('keydown', function(e) {
-
-                            switch (e.which) {
-
-                                // p
-                                case 80:
-                                    actionSvc.togglePause();
-                                    break;
-                            }
-
-                        });
-                    }
-                    
-                }
+            {
+                name: "running",
+                keysEnabled: [37,38,39,40,80]
+            },
+            {
+                name: "paused",
+                keysEnabled: [80]
             }
-        };
-        return keydownHandler;
+        ];
+
+        function validGameState(name, keycode) {
+            var result = false;
+            angular.forEach(states, function(state, key) {
+                if ( state.name === name ) {
+                    if ( state.keysEnabled.indexOf(keycode) !== -1 ) {
+                        result = true;
+                        return;
+                    }
+                }
+            });
+            return result;
+        }
+
+        return function($scope) {
+
+            // watch game state
+            var gameState,
+                keycode,
+                grid,
+                tetromino;
+
+            $document.on('keydown', function(e) {
+                gameState = tetrisService.getGameState();
+                keycode = e.which;
+
+                if ( validGameState(gameState, keycode) ) {
+                    grid = tetrisService.getGrid();
+                    tetromino = tetrisService.getTetromino();
+
+                    switch(e.which) {
+
+                        // left
+                        case 37:
+                            actionSvc.moveLeft(grid, tetromino);
+                            $scope.$apply();
+                            break;
+
+                        // up
+                        case 38:
+                            actionSvc.rotate(grid, tetromino);
+                            $scope.$apply();
+                            break;
+
+                        // right
+                        case 39:
+                            actionSvc.moveRight(grid, tetromino);
+                            $scope.$apply();
+                            break;
+
+                        // down
+                        case 40:
+                            actionSvc.moveDown(grid, tetromino);
+                            actionSvc.restartLoop();
+                            $scope.$apply();
+                            break;
+
+                        // p
+                        case 80:
+                            actionSvc.togglePause();
+                            break;
+                    }
+                }
+
+            });
+
+        }
     }
+
     angular
         .module("app")
-        .directive("keydownHandler", ["$document", "actionSvc", "tetrisService", keydownHandler]);
+        .directive("keydownHandler", keydownHandler);
 })();

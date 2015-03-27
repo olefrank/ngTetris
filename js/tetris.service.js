@@ -7,8 +7,7 @@
         var tetromino,
             grid,
             loop,
-            keysEnabled,
-            isPaused;
+            gameState = "idle";
 
         function getTetromino() {
             return tetromino;
@@ -28,17 +27,11 @@
         function setLoop(val) {
             loop = val;
         }
-        function getKeysEnabled() {
-            return keysEnabled;
+        function getGameState() {
+            return gameState;
         }
-        function setKeysEnabled(val) {
-            keysEnabled = val;
-        }
-        function getIsPaused() {
-            return isPaused;
-        }
-        function setIsPaused(val) {
-            isPaused = val;
+        function setGameState(val) {
+            gameState = val;
         }
 
         return {
@@ -51,11 +44,8 @@
             getLoop: getLoop,
             setLoop: setLoop,
 
-            getKeysEnabled: getKeysEnabled,
-            setKeysEnabled: setKeysEnabled,
-
-            getIsPaused: getIsPaused,
-            setIsPaused: setIsPaused
+            getGameState: getGameState,
+            setGameState: setGameState
         };
     }
     angular
