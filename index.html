@@ -2,27 +2,18 @@
 <html lang="da" ng-app="app">
 <head>
     <meta charset="utf-8">
-    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
-    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="">
 
-    <title>Starter Template for Bootstrap</title>
+    <title>Oles Classic Tetris Game</title>
 
     <!-- Bootstrap core CSS -->
     <link href="lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/styles.css" rel="stylesheet">
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
 </head>
 
 <body ng-controller="tetrisCtrl as Tetris" ng-init="Tetris.initGame()" keydown-handler ng-cloak>
-    <!--<keydown-handler tetromino="Tetris.tetromino()" grid="Tetris.grid()"></keydown-handler>-->
 
     <div class="wrapper">
 
@@ -48,7 +39,7 @@
 
                 <!-- score -->
                 <div class="score">
-                    <h4>{{ Tetris.getScore() }}</h4>
+                    <h4 class="score_text">{{ Tetris.getScore() }}</h4>
                 </div>
 
                 <!-- next up -->
@@ -58,10 +49,6 @@
                     </div>
                 </div>
 
-                <!-- button -->
-                <div class="btn-container">
-                    <button class="btn btn-default btn-start" ng-click="Tetris.btnClickHandler()">{{ Tetris.getBtnLabel() }}</button>
-                </div>
             </div> <!-- END sidebar -->
         </div> <!-- END sidebar-container -->
 
@@ -70,6 +57,7 @@
     <!-- ================================================== -->
     <script src="lib/jquery/dist/jquery.min.js"></script>
     <script src="lib/angular/angular.min.js"></script>
+    <script src="lib/angular-sanitize/angular-sanitize.min.js"></script>
     <script src="lib/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script src="lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script src="js/app.js"></script>
@@ -82,7 +70,6 @@
     <script src="js/tetromino.service.js"></script>
     <script src="js/score.service.js"></script>
     <script src="js/tetris.service.js"></script>
-    <script src="js/btnHandler.service.js"></script>
     <script src="js/modal/splash.service.js"></script>
 
 </body>

@@ -4,32 +4,24 @@
 
     function keydownHandler($document, actionSvc, tetrisService) {
 
-        var states = [
-            {
-                name: "idle",
-                keysEnabled: []
+        var states = {
+            idle: {
+                keysEnabled: [32]
             },
-            {
-                name: "running",
+            running: {
                 keysEnabled: [37,38,39,40,80]
             },
-            {
-                name: "paused",
+            paused: {
                 keysEnabled: [80]
+            },
+            game_over: {
+                keysEnabled: [32]
             }
-        ];
+        };
 
         function validGameState(name, keycode) {
-            var result = false;
-            angular.forEach(states, function(state, key) {
-                if ( state.name === name ) {
-                    if ( state.keysEnabled.indexOf(keycode) !== -1 ) {
-                        result = true;
-                        return;
-                    }
-                }
-            });
-            return result;
+            var state = states[name];
+            return state.keysEnabled.indexOf(keycode) !== -1;
         }
 
         return function($scope) {
@@ -44,11 +36,13 @@
                 gameState = tetrisService.getGameState();
                 keycode = e.which;
 
+//                console.log(keycode);
+
                 if ( validGameState(gameState, keycode) ) {
                     grid = tetrisService.getGrid();
                     tetromino = tetrisService.getTetromino();
 
-                    switch(e.which) {
+                    switch(keycode) {
 
                         // left
                         case 37:
@@ -75,9 +69,15 @@
                             $scope.$apply();
                             break;
 
-                        // p
+                        // p(ause)
                         case 80:
                             actionSvc.togglePause();
+                            break;
+
+                        // space
+                        case 32:
+                            actionSvc.startGame();
+                            actionSvc.restartLoop();
                             break;
                     }
                 }

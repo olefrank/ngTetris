@@ -40,38 +40,40 @@
         }
 
         function moveDown(grid, tetromino) {
-            if ( collisionSvc.isCollisionVertical(grid, tetromino) ) {
+            if (tetrisService.getGameState() !== "game_over") {
+                if ( collisionSvc.isCollisionVertical(grid, tetromino) ) {
 
-                if (collisionSvc.isGameOver(tetromino)) {
+                    if (collisionSvc.isGameOver(tetromino)) {
                         gameOver();
+                    }
+                    else {
+                        // copy tetromino to 'landed' grid
+                        grid = landTetromino(grid, tetromino);
+
+                        // remove lines if necessary
+                        var gridCleared = clearLines(grid);
+                        var numLinesCleared = grid.length - gridCleared.length;
+
+                        // update score
+                        scoreSvc.updateScore(numLinesCleared);
+
+                        // insert blank rows in top of grid
+                        grid = insertEmptyRows(numLinesCleared, gridCleared);
+
+                        // set grid
+                        tetrisService.setGrid(grid);
+
+                        // new tetromino
+                        tetromino = tetrominoSvc.updateQueue();
+                        tetrisService.setTetromino(tetromino);
+                    }
                 }
                 else {
-                    // copy tetromino to 'landed' grid
-                    grid = landTetromino(grid, tetromino);
-
-                    // remove lines if necessary
-                    var gridCleared = clearLines(grid);
-                    var numLinesCleared = grid.length - gridCleared.length;
-
-                    // update score
-                    scoreSvc.updateScore(numLinesCleared);
-
-                    // insert blank rows in top of grid
-                    grid = insertEmptyRows(numLinesCleared, gridCleared);
-
-                    // set grid
-                    tetrisService.setGrid(grid);
-
-                    // new tetromino
-                    tetromino = tetrominoSvc.updateQueue();
+                    tetromino.topLeft.y++;
+                    tetromino.screenPosition.y = (tetromino.topLeft.y * 20) + (tetromino.topLeft.y * 2);
                     tetrisService.setTetromino(tetromino);
-                }
-            }
-            else {
-                tetromino.topLeft.y++;
-                tetromino.screenPosition.y = (tetromino.topLeft.y * 20) + (tetromino.topLeft.y * 2);
-                tetrisService.setTetromino(tetromino);
 //                console.log("moved down");
+                }
             }
         }
 
@@ -172,8 +174,15 @@
         function gameOver() {
             var loop = tetrisService.getLoop();
             cancelLoop(loop);
-            tetrisService.setGameState("idle");
-            console.log("game over");
+            tetrisService.setGameState("game_over");
+
+//            splashService.open({
+//                title: 'Game Over!',
+//                message: "Press SPACE to start new game"
+//            });
+            splashService.open("game_over");
+
+            console.log("game state: " + tetrisService.getGameState());
         }
 
         function gameLoop() {
@@ -212,20 +221,17 @@
                     break;
 
                 case "running":
-                    splashService.open({
-                        title: 'Game is paused!',
-                        message: "Press 'p' to return"
-                    });
+//                    splashService.open({
+//                        title: 'Paused!',
+//                        message: "Press P to return"
+//                    });
+                    splashService.open("paused");
 
                     var loop = tetrisService.getLoop();
                     cancelLoop(loop);
 
                     tetrisService.setGameState("paused");
                     console.log("game state: " + tetrisService.getGameState());
-                    break;
-
-                case "idle":
-                    // todo!
                     break;
             }
         }
@@ -244,11 +250,31 @@
             // set state
             tetrisService.setGameState("idle");
             console.log("game state: " + tetrisService.getGameState());
+
+//            splashService.open({
+//                title: 'Welcome to Oles Classic Tetris!',
+//                message: "Press SPACEBAR to start game"
+//            });
+            splashService.open("welcome");
         }
 
         function startGame() {
-            // make sure game is initialized!
-            initGame();
+            splashService.close();
+
+            // tetromino
+            tetrisService.setTetromino(null);
+
+            // grid
+            var grid = factorySvc.createGrid(16, 10);
+            tetrisService.setGrid(grid);
+
+            // misc
+            scoreSvc.setScore(0);
+
+            // set state
+            tetrisService.setGameState("idle");
+            console.log("game state: " + tetrisService.getGameState());
+
 
             // tetromino
             var tetromino = tetrominoSvc.updateQueue();

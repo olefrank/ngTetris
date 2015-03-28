@@ -2,7 +2,7 @@
 
     "use strict";
 
-    function tetrisController(tetrominoSvc, scoreSvc, tetrisService, btnHandlerService, actionSvc, $modal, $log) {
+    function tetrisController(tetrominoSvc, scoreSvc, tetrisService, actionSvc) {
 
         // variables
         var vm = this;
@@ -36,17 +36,10 @@
             return result;
         };
 
-        vm.btnClickHandler = function() {
-            btnHandlerService.handleClick();
-        };
-
         vm.initGame = function() {
             actionSvc.initGame();
         };
 
-        vm.getBtnLabel = function() {
-            return btnHandlerService.getBtnLabel();
-        };
     }
 
     angular
