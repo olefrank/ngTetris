@@ -5,16 +5,19 @@
     var modal;
     var modals = {
         welcome: {
+            templateUrl: 'js/modal/modal-welcome.html',
             title: 'Welcome to Oles Classic Tetris!',
-            message: "Press SPACEBAR to start game"
+            message: '<p>Press <img src="img/space-icon.png" alt="space icon"/> to start game</p>'
         },
         paused: {
+            templateUrl: 'js/modal/modal.html',
             title: 'Pause!',
-            message: "Press P to resume"
+            message: "<p>Press <img src=\"img/letter-uppercase-P-icon.png\" alt=\"p key icon\"/> to resume</p>"
         },
         game_over: {
+            templateUrl: 'js/modal/modal.html',
             title: 'Game Over!',
-            message: "Press SPACEBAR to start a new game"
+            message: "<p>Press <img src=\"img/space-icon.png\" alt=\"space icon\"/> to start a new game</p>"
         }
     };
 
@@ -39,7 +42,7 @@
                 backdrop: false,
                 scope: scope,
                 keyboard: false,
-                templateUrl: 'js/modal/modal.html',
+                templateUrl: attrs.templateUrl,
                 windowTemplateUrl: 'js/modal/overlay.html'
             });
             modal = $modal.open(opts);

@@ -55,7 +55,7 @@
                         var numLinesCleared = grid.length - gridCleared.length;
 
                         // update score
-                        scoreSvc.updateScore(numLinesCleared);
+                        scoreSvc.updateScoreCleared(numLinesCleared);
 
                         // insert blank rows in top of grid
                         grid = insertEmptyRows(numLinesCleared, gridCleared);
@@ -115,7 +115,8 @@
                 tetromino = tetrisService.getTetromino();
 
             var gridX,
-                gridY;
+                gridY,
+                numCells = 0;
 
             for (var y = 0; y < tetromino.shape.length; y++) {
                 for (var x = 0; x < tetromino.shape[y].length; x++) {
@@ -124,8 +125,13 @@
                         gridX = tetromino.topLeft.x + x;
                         grid[gridY][gridX].value = 1;
                         grid[gridY][gridX].class = tetromino.class;
+
+                        if (y === tetromino.shape.length-1) {
+                            numCells++;
+                        }
                     }
                 }
+                scoreSvc.updateScoreLanded(numCells);
             }
             tetrisService.setGrid(grid);
 //            console.log("tetromino landed in grid");
@@ -175,14 +181,9 @@
             var loop = tetrisService.getLoop();
             cancelLoop(loop);
             tetrisService.setGameState("game_over");
-
-//            splashService.open({
-//                title: 'Game Over!',
-//                message: "Press SPACE to start new game"
-//            });
-            splashService.open("game_over");
-
             console.log("game state: " + tetrisService.getGameState());
+
+            splashService.open("game_over");
         }
 
         function gameLoop() {
