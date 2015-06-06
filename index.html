@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+  <title></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="utf-8">
+  <link href="app.less" type="text/css" rel="stylesheet/less">
+</head>
+<body ng-controller="tetrisCtrl as Tetris" ng-init="Tetris.initGame()" keydown-handler>
+
+<div ui-view ng-cloak>
+
+    <div class="wrapper">
+
+        <div class="grid-container">
+
+            <!--current tetromino-->
+            <div class="tetromino" ng-style="Tetris.tetrominoScreenPosition()">
+                <div ng-repeat="row in Tetris.tetromino().shape track by $index">
+                    <div class="tetromino-cell" ng-class="cell == 1 && Tetris.tetromino().class" ng-repeat="cell in row track by $index">&nbsp;</div>
+                </div>
+            </div>
+
+            <!-- grid -->
+            <div class="grid">
+                <div class="grid-row" ng-repeat="row in Tetris.grid() track by $index">
+                    <div class="grid-cell" ng-class="cell.value == 1 && cell.class" ng-repeat="cell in row track by $index">&nbsp;</div>
+                </div>
+            </div>
+        </div> <!-- END tetris-grid-container -->
+
+        <div class="sidebar-container">
+            <div class="sidebar">
+
+                <!-- score -->
+                <div class="score">
+                    <h4 class="score_text">{{ Tetris.getScore() }}</h4>
+                </div>
+
+                <!-- next up -->
+                <div class="next-up">
+                    <div class="grid-row" ng-repeat="row in Tetris.getNextTetromino().shape track by $index">
+                        <div class="grid-cell-sidebar" ng-class="cell == 1 && Tetris.getNextTetromino().class" ng-repeat="cell in row track by $index">&nbsp;</div>
+                    </div>
+                </div>
+
+            </div> <!-- END sidebar -->
+        </div> <!-- END sidebar-container -->
+
+    </div> <!-- END wrapper -->
+
+</div>
+
+  <!-- Livereload script for development only (stripped during dist build) -->
+  <script src="http://localhost:35729/livereload.js" data-concat="false"></script>
+
+  <!-- JS from Bower Components -->
+  <script src="bower_components/less.js/dist/less-1.6.2.js" data-concat="false"></script>
+  <script src="bower_components/jquery/jquery.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+  <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+  <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+  <!-- Add New Bower Component JS Above -->
+
+
+  <!-- Main App JS -->
+  <script src="app.js"></script>
+  <script src="game/action.service.js"></script>
+  <script src="game/collision.service.js"></script>
+  <script src="game/factory.service.js"></script>
+  <script src="game/keydownHandler.directive.js"></script>
+  <script src="game/score.service.js"></script>
+  <script src="game/shape.service.js"></script>
+  <script src="game/tetris.controller.js"></script>
+  <script src="game/tetris.service.js"></script>
+  <script src="game/tetromino.service.js"></script>
+  <script src="game/modal/splash.service.js"></script>
+  <!-- Add New Component JS Above -->
+
+</body>
+</html>

@@ -1,0 +1,180 @@
+
+// =============================================================================
+//  COLORS
+// =============================================================================
+@bg-body: #121212;
+@bg-gridcell: #272727;
+@bg-wrapper: #222222;
+@border-dark: #222222;
+@border-gridcontainer: #333333;
+@shape-o: yellow;
+@shape-l: pink;
+@shape-j: blue;
+@shape-i: lightblue;
+@shape-s: green;
+@shape-z: red;
+@shape-t: purple;
+
+
+// =============================================================================
+//  FONTS
+// =============================================================================
+@font-face {
+  font-family: digital;
+  src: url("/fonts/digital-7.italic.ttf");
+}
+
+
+// =============================================================================
+//  UTILS
+// =============================================================================
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+.clearfix:after {
+  content:"";
+  display:table;
+  clear:both;
+}
+
+
+// =============================================================================
+//  SECTIONS
+//  - BODY / WRAPPER
+// =============================================================================
+body {
+  background: @bg-body;
+  color: #ccc;
+  font-family: Georgia serif;
+  line-height: 1;
+}
+.wrapper {
+  background: @bg-wrapper;
+  width: 480px;
+  margin: 20px auto;
+  border: 6px solid white;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  text-align: center;
+}
+
+
+// =============================================================================
+//  SECTIONS
+//  - MAIN
+// =============================================================================
+.grid-container {
+  width: 222px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid @border-gridcontainer;
+  display: inline-block;
+}
+.tetromino { position: absolute; }
+.grid-cell { background-color: @bg-gridcell; }
+.main-container,.grid-cell,.tetromino-cell { border: 1px solid @border-dark; }
+.grid-cell,
+.tetromino-cell {
+  height: 22px;
+  width: 22px;
+}
+.grid-cell-sidebar {
+  width: 15px;
+  height: 15px;
+  border: 1px solid @border-dark;
+}
+.grid-cell,
+.tetromino-cell,
+.grid-cell-sidebar {
+  display: inline-block;
+}
+.shape-o {background-color: @shape-o;}
+.shape-l {background-color: @shape-l;}
+.shape-j {background-color: @shape-j;}
+.shape-i {background-color: @shape-i;}
+.shape-s {background-color: @shape-s;}
+.shape-z {background-color: @shape-z;}
+.shape-t {background-color: @shape-t;}
+
+
+// =============================================================================
+//  SECTIONS
+//  - SIDEBAR
+// =============================================================================
+.sidebar-container {
+  display: inline-block;
+  position: relative;
+  height: 0;
+  width: 0;
+  vertical-align: top;
+}
+.sidebar {
+  color: #ccc;
+  font-family: Arial;
+  display: inline-block;
+  position: absolute;
+  width: 80px;
+}
+.score_text {
+  font-family: digital;
+  font-size: 2.5em;
+}
+.score, .next-up {
+  margin-bottom: 20px;
+}
+
+
+// =============================================================================
+//  SPLASH
+// =============================================================================
+.splash {
+  position: fixed;
+  background: rgba(0,0,0,0.6);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 500;
+  opacity: 0;
+  visibility: hidden;
+  overflow: hidden;
+  -webkit-perspective: 1000px;
+  perspective: 1000px;
+  transition: opacity 0.5s, visibility 0s 0.5s;
+  -webkit-transition: opacity 0.5s, visibility 0s 0.5s;
+  .splash-inner {
+    width: 100%;
+    height: 100%;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-transform: translate3d(0,0,150px);
+    transform: translate3d(0,0,150px);
+    -webkit-transition: -webkit-transform 0.5s;
+    transition: transform 0.5s;
+  }
+  .splash-content {
+    width: 660px;
+    height: 350px;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    margin: -175px 0 0 -330px;
+    color: white;
+    font-size: 18px;
+  }
+}
+.splash-open.splash {
+  opacity: 1;
+  visibility: visible;
+  -webkit-transition: opacity 0.5s;
+  transition: opacity 0.5s;
+
+  .splash-inner {
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
+  }
+}
+// remove vertical scroll bar when modal (bootstrap thing)
+.modal {
+  overflow-y: auto;
+}
