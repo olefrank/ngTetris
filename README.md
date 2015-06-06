@@ -1,6 +1,8 @@
 # ngTetris
 _Classic Tetris game made with AngularJS_
 
+![Screenshot of ngTetris - Classic Tetris game made with AngularJS](/../screenshots/tetris1.png?raw=true "Screenshot of image")
+
 **Run game** <br/>
 <ol>
 <li>npm install && bower install</li>
